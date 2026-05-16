@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noctive Roleplay | Official Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7289da;
+            --dark-bg: rgba(0, 0, 0, 0.85);
+            --accent-color: #ffcc00;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --admin-panel-bg: rgba(20, 20, 20, 0.95);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://i.ibb.co.com/pBXnqtC2/20260513-202837.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* Sidebar */
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: #111; overflow-x: hidden;
+            transition: 0.5s; padding-top: 60px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px; text-decoration: none; font-size: 22px;
+            color: #818181; display: block; transition: 0.3s; cursor: pointer;
+        }
+        .sidenav a:hover { color: #f1f1f1; background: var(--primary-color); }
+        .sidenav .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; }
+
+        .menu-icon {
+            font-size: 30px; cursor: pointer; position: fixed;
+            top: 20px; left: 20px; z-index: 999;
+            background: var(--dark-bg); padding: 10px 15px; border-radius: 5px;
+        }
+
+        /* Container */
+        .container { padding: 80px 20px; max-width: 1000px; margin: auto; text-align: center; }
+
+        section {
+            display: none; background: var(--dark-bg); padding: 30px;
+            border-radius: 15px; margin-top: 20px; animation: fadeIn 0.5s ease;
+        }
+        section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Home Style */
+        .ip-box {
+            background: #222; padding: 15px; border: 2px dashed var(--primary-color);
+            display: inline-block; cursor: pointer; margin-top: 20px; transition: 0.3s;
+        }
+
+        /* Announcement Modern Style */
+        .announcement-card {
+            background: var(--card-bg); border-left: 5px solid var(--primary-color);
+            padding: 20px; margin-bottom: 20px; border-radius: 0 15px 15px 0;
+            text-align: left; transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .ann_tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        .tag-update { background: #2ecc71; } .tag-important { background: #e74c3c; } .tag-info { background: #3498db; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border-bottom: 1px solid #444; text-align: left; }
+        th { background: var(--primary-color); }
+
+        /* Faksi List Style */
+        .faksi-item {
+            background: rgba(255,255,255,0.05);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-approved { color: #2ecc71; font-weight: bold; font-size: 0.9em; }
+        .status-process { color: #ffcc00; font-weight: bold; font-size: 0.9em; }
+
+        /* Admin Panel Styling */
+        #admin-panel {
+            display: none; background: var(--admin-panel-bg); padding: 20px;
+            border-radius: 15px; border: 2px solid var(--primary-color);
+            margin-top: 50px; text-align: left;
+        }
+        .admin-input {
+            width: 100%; padding: 10px; margin: 10px 0; background: #333;
+            border: 1px solid #555; color: white; border-radius: 5px;
+        }
+        .btn { background: var(--primary-color); border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { opacity: 0.8; }
+        
+        .add-btn {
+            background: #2ecc71;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        /* Gaya Khusus Tombol Hapus */
+        .delete-section-btn {
+            background: #e74c3c; color: white; border: none; padding: 8px 15px; 
+            border-radius: 5px; cursor: pointer; margin-top: 5px; font-weight: bold;
+            font-size: 13px; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .delete-section-btn:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a onclick="showSection('home')">Home</a>
+        <a onclick="showSection('pengumuman')">Pengumuman</a>
+        <a onclick="showSection('admin')">List Admin</a>
+        <a onclick="showSection('faksi')">Badside List</a>
+        <a onclick="showSection('event')">Event</a>
+        <hr style="border: 0.5px solid #333;">
+        <a onclick="loginAdmin()" style="color: var(--accent-color); font-weight: bold;">Admin Panel</a>
+    </div>
+
+    <span class="menu-icon" onclick="openNav()"><i class="fas fa-bars"></i></span>
+
+    <div class="container">
+        
+        <section id="home" class="active">
+            <h1>WELCOME TO <br><span id="display-title" style="color:var(--primary-color)">NOCTIVE ROLEPLAY</span></h1>
+            <p id="display-desc">Rasakan pengalaman Roleplay yang nyata dan seru bersama komunitas kami.</p>
+            <div class="ip-box" onclick="copyIP()">
+                <i class="fas fa-server"></i> IP Server: <b id="server-ip">play.noctiverp.com:7777</b>
+            </div>
+            <p id="copy-msg" style="color: var(--accent-color); font-size: 12px; margin-top: 10px;"></p>
+        </section>
+
+        <section id="pengumuman">
+            <h2 style="margin-bottom: 30px;"><i class="fas fa-bullhorn"></i> Pengumuman Terbaru</h2>
+            <div id="announcement-list">
+                <div class="announcement-card" id="main-announcement-card">
+                    <span class="ann_tag tag-update">Update</span>
+                    <h3 id="ann-title-1">Maintenance Mingguan Selesai</h3>
+                    <p id="ann-desc-1" style="color: #ccc; font-size: 14px;">Kami telah melakukan perbaikan pada sistem bagasi kendaraan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin">
+            <h2><i class="fas fa-user-shield"></i> List Admin</h2>
+            <table id="admin-table">
+                <thead>
+                    <tr><th>Nama Admin</th><th>Jabatan</th></tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <tr><td>Zeldris</td><td>Server Owner</td></tr>
+                    <tr><td>Valkyrie</td><td>Head Admin</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="faksi">
+            <h2><i class="fas fa-skull"></i> Badside List</h2>
+            <p>Daftar keluarga dan kelompok yang terdaftar di Noctive Roleplay</p>
+            <div id="badside-container" style="max-width: 600px; margin: auto;">
+                <div class="faksi-item">
+                    <span>Sinaloa Cartel</span>
+                    <span class="status-approved">Approved</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="event">
+            <h2><i class="fas fa-calendar-star"></i> Pengumuman Event</h2>
+            <div id="event-box" style="border: 1px solid var(--accent-color); padding: 20px; border-radius: 10px;">
+                <h3 id="event-title">Lomba Balap Liar Noctive</h3>
+                <p id="event-detail">Hari/Tanggal: Sabtu Malam | Hadiah: Rp 5.000.000 IC</p>
+            </div>
+        </section>
+
+        <div id="admin-panel">
+            <h2 style="color: var(--accent-color); border-bottom: 1px solid #444;">PANEL ADMIN NOCTIVE</h2>
+            
+            <label>Ganti IP Server:</label>
+            <input type="text" id="input-ip" class="admin-input" placeholder="Contoh: play.noctiverp.com:7777">
+            
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3>Set Badside List</h3>
+            <div id="admin-badside-inputs"></div>
+            <div class="add-btn" onclick="addBadsideInput()"><i class="fas fa-plus"></i></div>
+            <button class="delete-section-btn" onclick="clearBadside()"><i class="fas fa-trash"></i> Hapus Semua Badside</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3>Set List Admin</h3>
+            <div id="admin-list-inputs"></div>
+            <div class="add-btn" onclick="addAdminInput()"><i class="fas fa-plus"></i></div>
+            <button class="delete-section-btn" onclick="clearAdminTable()"><i class="fas fa-trash"></i> Hapus Kosongkan List Admin</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <label>Ganti Pengumuman:</label>
+            <input type="text" id="input-ann-title" class="admin-input" placeholder="Judul Pengumuman">
+            <input type="text" id="input-ann-desc" class="admin-input" placeholder="Isi Pengumuman">
+            <button class="delete-section-btn" onclick="clearAnnouncement()"><i class="fas fa-trash"></i> Sembunyikan Pengumuman</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <label>Tambah / Ganti Event:</label>
+            <input type="text" id="input-event-title" class="admin-input" placeholder="Judul Event Baru">
+            <input type="text" id="input-event-detail" class="admin-input" placeholder="Detail Event (Hari, Tanggal, Hadiah)">
+            <button class="delete-section-btn" onclick="clearEvent()"><i class="fas fa-eye-slash"></i> Sembunyikan Kotak Event</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <button class="btn" onclick="saveChanges()">SIMPAN SEMUA PERUBAHAN</button>
+            <button class="btn" onclick="logoutAdmin()" style="background: #e74c3c;">LOGOUT</button>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi Firebase Website Noctivee milikmu
+        const firebaseConfig = {
+            apiKey: "AIzaSyByycnIfy96jZ3mGyc5jaPp9I0BN5FzITY",
+            authDomain: "website-noctivee.firebaseapp.com",
+            databaseURL: "https://website-noctivee-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "website-noctivee",
+            storageBucket: "website-noctivee.firebasestorage.app",
+            messagingSenderId: "655473344127",
+            appId: "1:655473344127:web:6e53ce520d22a51ab4894a",
+            measurementId: "G-Q5NVWXP5JT"
+        };
+
+        // Konek ke Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const webDataRef = ref(db, 'noctive_site_data');
+
+        // Jadikan fungsi global supaya bisa diakses elemen HTML onclick
+        window.openNav = function() { document.getElementById("mySidenav").style.width = "250px"; }
+        window.closeNav = function() { document.getElementById("mySidenav").style.width = "0"; }
+
+        window.showSection = function(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            closeNav();
+        }
+
+        window.copyIP = function() {
+            const ipText = document.getElementById("server-ip").innerText;
+            navigator.clipboard.writeText(ipText).then(() => {
+                const msg = document.getElementById("copy-msg");
+                msg.innerText = "IP Berhasil disalin!";
+                setTimeout(() => msg.innerText = "", 2000);
+            });
+        }
+
+        window.loginAdmin = function() {
+            let pass = prompt("Masukkan Password Admin:");
+            if (pass === "PANJULKECEGANTENG") {
+                alert("Login Berhasil!");
+                document.getElementById("admin-panel").style.display = "block";
+                window.scrollTo(0, document.body.scrollHeight);
+                closeNav();
+            } else {
+                alert("Password Salah!");
+            }
+        }
+
+        window.addBadsideInput = function() {
+            const container = document.getElementById('admin-badside-inputs');
+            const div = document.createElement('div');
+            div.className = 'badside-input-group';
+            div.style.marginBottom = "15px";
+            div.innerHTML = `
+                <input type="text" class="admin-input badside-name-in" placeholder="Nama Faksi" style="width: 60%; display: inline-block;">
+                <select class="admin-input badside-status-in" style="width: 35%; display: inline-block;">
+                    <option value="Approved">Approved</option>
+                    <option value="Process">Process</option>
+                </select>
+            `;
+            container.appendChild(div);
+        }
+
+        window.addAdminInput = function() {
+            const container = document.getElementById('admin-list-inputs');
+            const div = document.createElement('div');
+            div.className = 'admin-input-group';
+            div.style.marginBottom = "15px";
+            div.innerHTML = `
+                <input type="text" class="admin-input admin-name-in" placeholder="Nama Admin" style="width: 48%; display: inline-block; margin-right: 2%;">
+                <input type="text" class="admin-input admin-role-in" placeholder="Jabatan (e.g. Head Admin)" style="width: 48%; display: inline-block;">
+            `;
+            container.appendChild(div);
+        }
+
+        // Sinkronisasi data ke Cloud Firebase
+        function pushUpdateToFirebase() {
+            const dataWeb = {
+                ip: document.getElementById("server-ip").innerText,
+                badsideHTML: document.getElementById('badside-container').innerHTML,
+                adminHTML: document.getElementById('admin-table-body').innerHTML,
+                announcementHTML: document.getElementById('main-announcement-card').innerHTML,
+                announcementDisplay: document.getElementById('main-announcement-card').style.display || 'block',
+                eventHTML: document.getElementById('event-box').innerHTML,
+                eventDisplay: document.getElementById('event-box').style.display || 'block'
+            };
+            set(webDataRef, dataWeb);
+        }
+
+        window.clearBadside = function() {
+            if(confirm("Apakah Anda yakin ingin menghapus seluruh daftar Badside List?")) {
+                document.getElementById('badside-container').innerHTML = '<p style="color:#aaa;font-style:italic;">Belum ada faksi yang terdaftar.</p>';
+                document.getElementById('admin-badside-inputs').innerHTML = '';
+                addBadsideInput();
+                pushUpdateToFirebase();
+                alert("Daftar Badside dikosongkan!");
+            }
+        }
+
+        window.clearAdminTable = function() {
+            if(confirm("Apakah Anda yakin ingin mengosongkan seluruh tabel List Admin depan?")) {
+                document.getElementById('admin-table-body').innerHTML = '<tr><td colspan="2" style="text-align:center;color:#aaa;font-style:italic;">Tidak ada admin aktif</td></tr>';
+                document.getElementById('admin-list-inputs').innerHTML = '';
+                addAdminInput();
+                pushUpdateToFirebase();
+                alert("List Admin dikosongkan!");
+            }
+        }
+
+        window.clearAnnouncement = function() {
+            if(confirm("Sembunyikan kartu pengumuman aktif dari halaman depan?")) {
+                document.getElementById('main-announcement-card').style.display = 'none';
+                document.getElementById('input-ann-title').value = '';
+                document.getElementById('input-ann-desc').value = '';
+                pushUpdateToFirebase();
+                alert("Pengumuman disembunyikan!");
+            }
+        }
+
+        window.clearEvent = function() {
+            if(confirm("Apakah Anda ingin menyembunyikan atau menghapus tampilan kotak Event saat ini?")) {
+                document.getElementById('event-box').style.display = 'none';
+                document.getElementById('input-event-title').value = '';
+                document.getElementById('input-event-detail').value = '';
+                pushUpdateToFirebase();
+                alert("Kotak event disembunyikan dari user!");
+            }
+        }
+
+        window.saveChanges = function() {
+            let newIP = document.getElementById("input-ip").value;
+            if(newIP) document.getElementById("server-ip").innerText = newIP;
+
+            // Update Badside List
+            const names = document.querySelectorAll('.badside-name-in');
+            const statuses = document.querySelectorAll('.badside-status-in');
+            const displayContainer = document.getElementById('badside-container');
+            
+            if(names.length > 0) {
+                let hasValidBadside = false;
+                names.forEach(nameInput => { if(nameInput.value) hasValidBadside = true; });
+                
+                if(hasValidBadside) {
+                    displayContainer.innerHTML = '';
+                    names.forEach((nameInput, index) => {
+                        if(nameInput.value) {
+                            const statusVal = statuses[index].value;
+                            const statusClass = statusVal === "Approved" ? "status-approved" : "status-process";
+                            const item = document.createElement('div');
+                            item.className = 'faksi-item';
+                            item.innerHTML = `<span>${nameInput.value}</span> <span class="${statusClass}">${statusVal}</span>`;
+                            displayContainer.appendChild(item);
+                        }
+                    });
+                }
+            }
+
+            // Update List Admin
+            const adminNames = document.querySelectorAll('.admin-name-in');
+            const adminRoles = document.querySelectorAll('.admin-role-in');
+            const adminTableBody = document.getElementById('admin-table-body');
+
+            if(adminNames.length > 0) {
+                let hasValidAdmin = false;
+                adminNames.forEach(admInput => { if(admInput.value) hasValidAdmin = true; });
+
+                if(hasValidAdmin) {
+                    adminTableBody.innerHTML = ''; 
+                    adminNames.forEach((admInput, index) => {
+                        if(admInput.value) {
+                            const roleVal = adminRoles[index].value || "Staff"; 
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `<td>${admInput.value}</td><td>${roleVal}</td>`;
+                            adminTableBody.appendChild(tr);
+                        }
+                    });
+                }
+            }
+
+            // Update Pengumuman
+            let newAnnTitle = document.getElementById("input-ann-title").value;
+            let newAnnDesc = document.getElementById("input-ann-desc").value;
+            if(newAnnTitle || newAnnDesc) {
+                document.getElementById('main-announcement-card').style.display = 'block';
+                if(newAnnTitle) document.getElementById("ann-title-1").innerText = newAnnTitle;
+                if(newAnnDesc) document.getElementById("ann-desc-1").innerText = newAnnDesc;
+            }
+
+            // Update Event
+            let newEventTitle = document.getElementById("input-event-title").value;
+            let newEventDetail = document.getElementById("input-event-detail").value;
+            if(newEventTitle || newEventDetail) {
+                document.getElementById('event-box').style.display = 'block';
+                if(newEventTitle) document.getElementById("event-title").innerText = newEventTitle;
+                if(newEventDetail) document.getElementById("event-detail").innerText = newEventDetail;
+            }
+
+            // Push ke Cloud agar semua HP langsung tersinkronisasi
+            pushUpdateToFirebase();
+            alert("Update Berhasil secara Real-Time!");
+        }
+
+        window.logoutAdmin = function() {
+            document.getElementById("admin-panel").style.display = "none";
+            alert("Berhasil Logout.");
+        }
+
+        // Listener Realtime Firebase: Jika data di cloud berubah, otomatis tampilan di HP lain langsung update otomatis
+        onValue(webDataRef, (snapshot) => {
+            const data = snapshot.val();
+            if(!data) return;
+            if(data.ip) document.getElementById("server-ip").innerText = data.ip;
+            if(data.badsideHTML) document.getElementById('badside-container').innerHTML = data.badsideHTML;
+            if(data.adminHTML) document.getElementById('admin-table-body').innerHTML = data.adminHTML;
+            if(data.announcementHTML) document.getElementById('main-announcement-card').innerHTML = data.announcementHTML;
+            if(data.announcementDisplay) document.getElementById('main-announcement-card').style.display = data.announcementDisplay;
+            if(data.eventHTML) document.getElementById('event-box').innerHTML = data.eventHTML;
+            if(data.eventDisplay) document.getElementById('event-box').style.display = data.eventDisplay;
+        });
+        
+        addBadsideInput();
+        addAdminInput();
+    </script>
+</body>
+</html>
+          
