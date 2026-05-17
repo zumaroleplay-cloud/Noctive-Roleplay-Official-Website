@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noctive Roleplay | Official Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7289da;
+            --dark-bg: rgba(0, 0, 0, 0.85);
+            --accent-color: #ffcc00;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --admin-panel-bg: rgba(20, 20, 20, 0.95);
+            --discord-color: #5865F2;
+            --whatsapp-color: #25D366;
+            --base-color: #2ecc71;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://i.ibb.co.com/pBXnqtC2/20260513-202837.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* Top Bar untuk Status Login IC */
+        .top-navbar {
+            position: fixed;
+            top: 0; right: 0; left: 0;
+            height: 60px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 998;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .user-ic-badge {
+            background: var(--card-bg);
+            border: 1px solid var(--primary-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Screen Login IC Overlay */
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #09090b;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-card {
+            background: #151518;
+            border: 2px solid var(--primary-color);
+            padding: 35px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        /* Sidebar Modern dengan Icon alignment */
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 1000;
+            top: 0; left: 0; background-color: #111; overflow-x: hidden;
+            transition: 0.5s; padding-top: 60px;
+        }
+        .sidenav a {
+            padding: 12px 12px 12px 32px; text-decoration: none; font-size: 18px;
+            color: #818181; display: flex; align-items: center; gap: 15px; transition: 0.3s; cursor: pointer;
+        }
+        .sidenav a:hover { color: #f1f1f1; background: var(--primary-color); }
+        .sidenav a i { font-size: 18px; width: 25px; text-align: center; }
+        .sidenav .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; padding-left: 0; }
+        .sidenav .closebtn:hover { background: none; }
+
+        /* Style untuk Kolom Pencarian di dalam Sidenav Break Rules */
+        .search-container {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 25px;
+            border-radius: 6px;
+            border: 1px solid #333;
+        }
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        /* Style Konten Tabel Pelanggaran di Section Break Rules */
+        .rules-table th {
+            background: var(--danger-color);
+        }
+
+        .menu-icon {
+            font-size: 24px; cursor: pointer; position: fixed;
+            top: 13px; left: 20px; z-index: 999;
+            background: var(--dark-bg); padding: 5px 12px; border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Container */
+        .container { padding: 100px 20px 40px 20px; max-width: 1000px; margin: auto; text-align: center; }
+
+        section {
+            display: none; background: var(--dark-bg); padding: 30px;
+            border-radius: 15px; margin-top: 20px; animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+        section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Home Style */
+        .ip-box {
+            background: #222; padding: 15px; border: 2px dashed var(--primary-color);
+            display: inline-block; cursor: pointer; margin-top: 20px; transition: 0.3s;
+            border-radius: 8px;
+        }
+
+        /* Social Buttons Style */
+        .social-buttons-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-social {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, opacity 0.2s;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn-social:hover { transform: translateY(-3px); opacity: 0.9; }
+        .btn-discord { background-color: var(--discord-color); }
+        .btn-whatsapp { background-color: var(--whatsapp-color); }
+
+        /* Announcement Modern Style */
+        .announcement-card {
+            background: var(--card-bg); border-left: 5px solid var(--primary-color);
+            padding: 20px; margin-bottom: 20px; border-radius: 0 15px 15px 0;
+            text-align: left; transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .ann_tag { font-size: 10px; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        .tag-update { background: #2ecc71; } .tag-important { background: #e74c3c; } .tag-info { background: #3498db; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border-bottom: 1px solid #444; text-align: left; }
+        th { background: var(--primary-color); }
+        .warning-badge { background: var(--danger-color); padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+
+        /* Faksi List Style */
+        .faksi-item {
+            background: rgba(255,255,255,0.05);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-approved { color: #2ecc71; font-weight: bold; font-size: 0.9em; }
+        .status-process { color: #ffcc00; font-weight: bold; font-size: 0.9em; }
+
+        /* Wilayah Base & Galeri Card Style */
+        .base-container, .galeri-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .base-card, .galeri-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 300px;
+            overflow: hidden;
+            text-align: left;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .base-img, .galeri-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: #222;
+        }
+        .base-info, .galeri-info {
+            padding: 15px;
+            position: relative;
+        }
+        .base-title, .galeri-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 0 0 5px 0;
+        }
+        .galeri-uploader-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .base-text, .galeri-text {
+            font-size: 13px;
+            color: #ccc;
+            margin: 0;
+        }
+
+        /* Tombol Hapus Foto Otomatis (Hanya muncul jika Pengirim === Login IC) */
+        .delete-own-photo-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+        .delete-own-photo-btn:hover {
+            background: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Tombol Tambah Bulat di Pojok Kiri Bawah Halaman Galeri */
+        .float-add-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: var(--base-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: 0.3s;
+            z-index: 10;
+        }
+        .float-add-btn:hover { transform: scale(1.1); background: #27ae60; }
+
+        /* Modal Popup Form Input Untuk Galeri Warga */
+        .galeri-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: #151515; border: 2px solid var(--primary-color); padding: 25px;
+            border-radius: 12px; width: 90%; max-width: 400px; text-align: left;
+        }
+
+        /* Admin Panel Styling */
+        #admin-panel {
+            display: none; background: var(--admin-panel-bg); padding: 20px;
+            border-radius: 15px; border: 2px solid var(--primary-color);
+            margin-top: 50px; text-align: left;
+        }
+        .admin-input {
+            width: 100%; padding: 10px; margin: 5px 0 12px 0; background: #333;
+            border: 1px solid #555; color: white; border-radius: 5px; box-sizing: border-box;
+        }
+        .btn { background: var(--primary-color); border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .btn:hover { opacity: 0.8; }
+        
+        .add-btn {
+            background: #2ecc71; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; margin: 10px 0; cursor: pointer;
+        }
+
+        .delete-section-btn {
+            background: #e74c3c; color: white; border: none; padding: 8px 15px; 
+            border-radius: 5px; cursor: pointer; margin-top: 5px; font-weight: bold;
+            font-size: 13px; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .delete-section-btn:hover { background: #c0392b; }
+
+        .admin-action-row {
+            background: #222; padding: 10px; border-radius: 5px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--primary-color);
+        }
+        
+        .file-upload-btn {
+            background: #444; border: 1px solid #666; padding: 8px; color: white; 
+            border-radius: 5px; width: 100%; margin-top: 5px; margin-bottom: 12px; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN LOGIN IC SYSTEM (Mencegah Dual IC) -->
+    <div id="authScreen" class="auth-overlay">
+        <div class="auth-card">
+            <h2 style="color: var(--primary-color); margin-top: 0;"><i class="fas fa-fingerprint"></i> VERIFIKASI IC</h2>
+            <p style="color: #aaa; font-size: 14px;">Silakan masukkan nama In-Character (IC) Anda untuk masuk ke Website Resmi Noctive RP.</p>
+            
+            <div style="text-align: left; margin-top: 20px;">
+                <label style="font-size: 14px; font-weight: bold; color: #fff;">Nama IC (Contoh: Xaviera_Vameziel):</label>
+                <input type="text" id="icInputName" class="admin-input" placeholder="Masukkan Nama_Belakang" style="margin-top: 8px;">
+            </div>
+            
+            <button class="btn" style="width: 100%; background: var(--primary-color); padding: 12px; font-weight: bold; font-size: 15px; margin-top: 5px;" onclick="window.handleICAuthentication()">MASUK WEBSITE</button>
+            <p style="color: #e74c3c; font-size: 12px; margin-top: 12px; font-weight: bold; display: none;" id="authErrorMsg"></p>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <!-- Top Navbar Menampilkan Nama IC di Pojok Kanan Atas -->
+    <div class="top-navbar">
+        <div class="user-ic-badge">
+            <i class="fas fa-user-circle"></i> <span id="topBarICName">Loading_IC...</span>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu Dengan Tambahan Fitur Break Rules dan Kolom Pencarian -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="window.closeNav()">&times;</a>
+        <a onclick="window.showSection('home')"><i class="fas fa-home"></i> Home</a>
+        <a onclick="window.showSection('pengumuman')"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+        <a onclick="window.showSection('admin')"><i class="fas fa-user-shield"></i> List Admin</a>
+        <a onclick="window.showSection('faksi')"><i class="fas fa-skull"></i> Badside List</a>
+        <a onclick="window.showSection('event')"><i class="fas fa-calendar-star"></i> Event</a>
+        <a onclick="window.showSection('wilayah_base')" style="color: var(--base-color); font-weight: bold;"><i class="fas fa-map-marked-alt"></i> Wilayah Faksi</a>
+        <a onclick="window.showSection('galeri_warga')" style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-images"></i> Galeri Warga</a>
+        
+        <!-- Bagian Break Rules dengan Kolom Pencarian -->
+        <hr style="border: 0.5px solid #333; margin-top: 15px;">
+        <a onclick="window.showSection('break_rules')" style="color: var(--danger-color); font-weight: bold;"><i class="fas fa-gavel"></i> Break Rules</a>
+        <div class="search-container">
+            <i class="fas fa-search" style="color: #818181; font-size: 14px;"></i>
+            <input type="text" id="sidebarSearch" placeholder="Cari pasal / aturan..." onkeyup="window.searchRulesInSidebar()">
+        </div>
+
+        <hr style="border: 0.5px solid #333;">
+        <a onclick="window.loginAdmin()" style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-sliders-h"></i> Admin Panel</a>
+    </div>
+
+    <span class="menu-icon" onclick="window.openNav()"><i class="fas fa-bars"></i></span>
+
+    <div class="container">
+        
+        <section id="home" class="active">
+            <h1>WELCOME TO <br><span id="display-title" style="color:var(--primary-color)">NOCTIVE ROLEPLAY</span></h1>
+            <p id="display-desc">Rasakan pengalaman Roleplay yang nyata dan seru bersama komunitas kami.</p>
+            <div class="ip-box" onclick="window.copyIP()">
+                <i class="fas fa-server"></i> IP Server: <b id="server-ip">play.noctiverp.com:7777</b>
+            </div>
+            <p id="copy-msg" style="color: var(--accent-color); font-size: 12px; margin-top: 10px;"></p>
+            
+            <div class="social-buttons-container">
+                <a href="https://discord.gg/ePe8gR6Tjj" target="_blank" class="btn-social btn-discord">
+                    <i class="fab fa-discord"></i> Join Discord
+                </a>
+                <a href="https://whatsapp.com/channel/0029Vb6qG875Ejy4KC4HZJ3a" target="_blank" class="btn-social btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Saluran WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <section id="pengumuman">
+            <h2 style="margin-bottom: 30px;"><i class="fas fa-bullhorn"></i> Pengumuman Terbaru</h2>
+            <div id="announcement-list">
+                <div class="announcement-card" id="main-announcement-card">
+                    <span class="ann_tag tag-update">Update</span>
+                    <h3 id="ann-title-1">Maintenance Mingguan Selesai</h3>
+                    <p id="ann-desc-1" style="color: #ccc; font-size: 14px;">Kami telah melakukan perbaikan pada sistem bagasi kendaraan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="admin">
+            <h2><i class="fas fa-user-shield"></i> List Admin</h2>
+            <table id="admin-table">
+                <thead>
+                    <tr><th>Nama Admin</th><th>Jabatan</th><th>Warning</th></tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <tr><td>Zeldris</td><td>Server Owner</td><td><span class="warning-badge">0/4</span></td></tr>
+                    <tr><td>Valkyrie</td><td>Head Admin</td><td><span class="warning-badge">0/4</span></td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="faksi">
+            <h2><i class="fas fa-skull"></i> Badside List</h2>
+            <p>Daftar keluarga dan kelompok yang terdaftar di Noctive Roleplay</p>
+            <div id="badside-container" style="max-width: 600px; margin: auto;">
+                <div class="faksi-item">
+                    <span>Sinaloa Cartel</span>
+                    <span class="status-approved">Approved</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="event">
+            <h2><i class="fas fa-bullhorn"></i> Pengumuman Event</h2>
+            <div id="event-box" style="border: 1px solid var(--accent-color); padding: 20px; border-radius: 10px;">
+                <h3 id="event-title"><i class="fas fa-bullhorn" style="color: var(--accent-color)"></i> Lomba Balap Liar Noctive</h3>
+                <p id="event-detail">Hari/Tanggal: Sabtu Malam | Hadiah: Rp 5.000.000 IC</p>
+            </div>
+        </section>
+
+         <section id="wilayah_base">
+            <h2><i class="fas fa-map-marked-alt"></i> Wilayah & Base Faksi</h2>
+            <p>Berikut adalah peta pembagian wilayah kekuasaan Fam / Gang resmi Noctive Roleplay.</p>
+            <div class="base-container" id="base-display-list">
+                <div class="base-card">
+                    <img src="https://i.ibb.co.com/pBXnqtC2/20260513-202837.jpg" class="base-img" alt="Foto Base">
+                    <div class="base-info">
+                        <p class="base-title">Sinaloa Cartel</p>
+                        <p class="base-text"><i class="fas fa-map-marker-alt" style="color:red"></i> Wilayah: El Corona Base</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION GALERI WARGA -->
+        <section id="galeri_warga">
+            <h2><i class="fas fa-images"></i> Galeri Warga</h2>
+            <p>Kumpulan foto-foto keseruan dan moment menarik dari warga di Noctive Roleplay.</p>
+            
+            <div class="galeri-container" id="galeri-display-list">
+                <!-- Data Ter-render secara Otomatis dari Firebase -->
+            </div>
+
+            <!-- Tombol Tambah Bulat di Pojok Kiri Bawah Ruang Galeri -->
+            <div class="float-add-btn" onclick="window.openGaleriModal()" title="Tambah Foto Moment Kamu">
+                <i class="fas fa-plus"></i>
+            </div>
+        </section>
+
+        <!-- SECTION BREAK RULES -->
+        <section id="break_rules">
+            <h2><i class="fas fa-gavel" style="color: var(--danger-color)"></i> Server Break Rules</h2>
+            <p>Daftar aturan dasar dan pasal pelanggaran Kota Noctive Roleplay.</p>
+            <table class="rules-table">
+                <thead>
+                    <tr><th>Nama Pelanggaran</th><th>Penjelasan / Tindakan</th></tr>
+                </thead>
+                <tbody id="rules-table-body">
+                    <tr><td><b>Powergaming (PG)</b></td><td>Melakukan hal yang tidak masuk akal atau tidak bisa dilakukan di dunia nyata.</td></tr>
+                    <tr><td><b>Metagaming (MG)</b></td><td>Menggunakan informasi OOC (Out of Character) untuk kepentingan IC (In Character).</td></tr>
+                    <tr><td><b>Deathmatch (DM)</b></td><td>Membunuh atau menyerang player lain tanpa alasan Roleplay yang jelas dan kuat.</td></tr>
+                    <tr><td><b>Karkills / Car Ramming</b></td><td>Menabrakkan kendaraan ke player lain atau kendaraan lain tanpa alasan logis.</td></tr>
+                    <tr><td><b>Refuse RP</b></td><td>Menolak, memutuskan jaringan, atau keluar game saat tindakan Roleplay sedang berjalan.</td></tr>
+                    <tr><td><b>Olympic Gaming</b></td><td>Melakukan tindakan tidak realistis yang memanfaatkan mekanik game (contoh: melompat-lompat saat dikejar agar lebih cepat).</td></tr>
+<tr><td><b>Powergaming via Script</b></td><td>Memanfaatkan celah script atau bug sistem untuk keuntungan karakter secara sepihak.</td></tr>
+<tr><td><b>Metagaming via Voice</b></td><td>Menggunakan Discord, TeamSpeak, atau telepon dunia nyata untuk berkoordinasi saat roleplay sedang berlangsung.</td></tr>
+<tr><td><b>Revenge Killing (RK)</b></td><td>Kembali dan membunuh orang yang baru saja membunuh karaktermu setelah kamu melakukan respawn.</td></tr>
+<tr><td><b>Player Killing (PK)</b></td><td>Kondisi di mana karakter mengalami kematian sementara dan lupa ingatan mengenai kejadian terakhir sebelum mati.</td></tr>
+<tr><td><b>Character Kill (CK)</b></td><td>Kematian permanen sebuah karakter, di mana aset hilang dan pemain harus membuat karakter baru dengan nama baru.</td></tr>
+<tr><td><b>Out of Character (OOC)</b></td><td>Segala hal, tindakan, atau ucapan yang tidak berhubungan dengan dunia roleplay dan mewakili diri asli pemain.</td></tr>
+<tr><td><b>In Character (IC)</b></td><td>Segala hal, tindakan, atau ucapan yang sepenuhnya dilakukan oleh karakter di dalam dunia roleplay.</td></tr>
+<tr><td><b>Ninja Stealing</b></td><td>Mencuri kendaraan atau properti milik player lain tanpa adanya interaksi atau roleplay pembuka yang jelas.</td></tr>
+<tr><td><b>Car Jacking</b></td><td>Membajak kendaraan yang sedang dikendarai oleh player lain secara paksa tanpa roleplay yang memadai.</td></tr>
+<tr><td><b>Fear RP</b></td><td>Kewajiban untuk menunjukkan rasa takut ketika nyawa karakter terancam (misalnya saat ditodong pistol).</td></tr>
+<tr><td><b>Value of Life</b></td><td>Prinsip menghargai nyawa karakter sendiri seperti halnya manusia di dunia nyata yang takut mati.</td></tr>
+<tr><td><b>Combat Logging</b></td><td>Sengaja keluar dari game (disconnect) saat sedang berada di tengah pertempuran atau pengejaran polisi.</td></tr>
+<tr><td><b>Combat Storing</b></td><td>Menyimpan kendaraan atau barang bukti ke dalam garasi/apartemen saat sedang dikejar oleh pihak lain.</td></tr>
+<tr><td><b>Non-RP Driving</b></td><td>Mengemudikan kendaraan secara ugal-ugalan dengan cara yang mustahil dilakukan di dunia nyata (seperti melompati gedung).</td></tr>
+<tr><td><b>Non-RP Behavior</b></td><td>Bertingkah laku aneh dan tidak masuk akal yang merusak imersi lingkungan sekitar (seperti menari di atas mobil polisi).</td></tr>
+<tr><td><b>Non-RP Fly</b></td><td>Menerbangkan helikopter atau pesawat secara ugal-ugalan atau mendarat di area yang tidak masuk akal (seperti jalan raya padat).</td></tr>
+<tr><td><b>Greenzone</b></td><td>Zona aman di mana pemain dilarang keras melakukan tindakan kriminal, kekerasan, atau mengangkat senjata.</td></tr>
+<tr><td><b>Redzone</b></td><td>Zona bebas atau area kriminal di mana aksi saling tembak dan perampokan diperbolehkan sesuai batasan server.</td></tr>
+<tr><td><b>Bluezone</b></td><td>Zona instansi pemerintahan atau hukum (seperti kantor polisi) yang memiliki aturan ketat terkait keamanan.</td></tr>
+<tr><td><b>Power-Emote</b></td><td>Memaksakan tindakan melalui perintah /me yang tidak memberikan kesempatan bagi lawan main untuk merespons atau melawan.</td></tr>
+<tr><td><b>Metagaming Stream</b></td><td>Menonton live streaming player lain untuk mengetahui lokasi, strategi, atau informasi rahasia mereka secara IC.</td></tr>
+<tr><td><b>Asspulling</b></td><td>Mengeluarkan barang besar (seperti senapan laras panjang) dari tempat yang tidak masuk akal secara instan tanpa roleplay.</td></tr>
+<tr><td><b>Mixing</b></td><td>Mencampuradukkan bahasa atau informasi OOC ke dalam obrolan suara atau teks IC.</td></tr>
+<tr><td><b>Fail RP</b></td><td>Kegagalan total dalam melakukan peran atau tidak mengikuti standar simulasi kehidupan nyata yang telah ditentukan.</td></tr>
+<tr><td><b>Cop Baiting</b></td><td>Sengaja memancing perhatian atau kemarahan polisi tanpa alasan yang jelas hanya demi mendapatkan pengejaran.</td></tr>
+<tr><td><b>Heal Spamming</b></td><td>Menggunakan item pemulih darah secara terus-menerus di tengah baku tembak tanpa jeda animasi atau roleplay.</td></tr>
+<tr><td><b>Armor Spamming</b></td><td>Menggunakan item pelindung tubuh berkali-kali secara instan saat sedang menerima tembakan.</td></tr>
+<tr><td><b>Bunny Hopping</b></td><td>Melompat-lompat secara terus-menerus agar bisa bergerak lebih cepat daripada berlari biasa.</td></tr>
+<tr><td><b>Chicken Running</b></td><td>Berlari zigzag secara ekstrem dan tidak natural untuk menghindari peluru yang ditembakkan musuh.</td></tr>
+<tr><td><b>Driving Dead</b></td><td>Tetap mengemudikan kendaraan padahal karakter digambarkan sudah pingsan atau tertembak parah.</td></tr>
+<tr><td><b>Guns Out of Nowhere</b></td><td>Menembak secara tiba-tiba tanpa memberikan peringatan verbal atau roleplay pengancaman terlebih dahulu.</td></tr>
+<tr><td><b>Robbing Restrictions</b></td><td>Melanggar aturan batasan jumlah uang atau barang maksimal yang boleh dirampok dari player lain.</td></tr>
+<tr><td><b>Scamming Restrictions</b></td><td>Melakukan penipuan transaksi melebihi batas nominal ekonomi yang telah ditetapkan oleh aturan server.</td></tr>
+<tr><td><b>Tackle Spamming</b></td><td>Menjatuhkan atau menekel player lain secara berulang-ulang tanpa memberikan waktu bagi mereka untuk berdiri.</td></tr>
+<tr><td><b>OOC Insult</b></td><td>Menghina, mencaci, atau merendahkan pribadi pemain lain di dunia nyata melalui saluran OOC.</td></tr>
+<tr><td><b>OOC Lie</b></td><td>Berbohong kepada admin atau staff server saat sedang melakukan proses interogasi atau report di forum/discord.</td></tr>
+<tr><td><b>IC Lie</b></td><td>Berbohong di dalam koridor roleplay, yang sepenuhnya legal dan merupakan bagian dari dinamika karakter.</td></tr>
+<tr><td><b>Body Camping</b></td><td>Menjaga tubuh player yang sedang pingsan agar tidak bisa ditolong oleh tim medis atau teman-temannya.</td></tr>
+<tr><td><b>Loot Bugging</b></td><td>Mengambil barang dari inventaris mayat atau kendaraan dengan memanfaatkan bug visual.</td></tr>
+<tr><td><b>Provoking</b></td><td>Sengaja memprovokasi kelompok atau gang lain di area markas mereka tanpa alasan alur cerita yang kuat.</td></tr>
+<tr><td><b>New Life Rule (NLR)</b></td><td>Aturan yang melarang player kembali ke lokasi tempat ia mati dan melarang mengingat kejadian sebelum kematiannya.</td></tr>
+<tr><td><b>Mercy Killing</b></td><td>Meminta teman sendiri untuk membunuh karaktermu agar bisa terhindar dari interogasi polisi atau penculikan musuh.</td></tr>
+<tr><td><b>Re-logging in RP</b></td><td>Sengaja keluar lalu masuk game kembali demi menghilangkan efek negatif, borgol, atau status cedera.</td></tr>
+<tr><td><b>Third Party RP</b></td><td>Ikut campur dalam situasi konflik atau baku tembak antara dua pihak lain tanpa adanya keterikatan cerita.</td></tr>
+<tr><td><b>Suicide RP</b></td><td>Melakukan tindakan bunuh diri secara sengaja dalam roleplay untuk menghindari konsekuensi hukum atau alur cerita.</td></tr>
+<tr><td><b>ERP (Erotic Roleplay)</b></td><td>Melakukan tindakan, percakapan, atau simulasi yang mengarah pada hal seksual, yang biasanya dilarang keras di server umum.</td></tr>
+<tr><td><b>Powergaming Armor</b></td><td>Mengklaim karakter memakai rompi antipeluru tebal yang tidak hancur meski ditembak berkali-kali.</td></tr>
+<tr><td><b>Meta-gaming Radio</b></td><td>Menggunakan frekuensi radio polisi atau gang tanpa memiliki item fisik radio tersebut di inventaris karakter.</td></tr>
+<tr><td><b>Ramming via Heavy Vehicle</b></td><td>Sengaja menabrak barisan mobil kecil menggunakan truk besar tanpa alasan darurat demi menghancurkan mereka.</td></tr>
+<tr><td><b>Wallhacking via Camera</b></td><td>Menggeser sudut kamera sudut pandang ketiga (3rd person) untuk mengintip balik tembok tanpa menengokkan kepala secara IC.</td></tr>
+<tr><td><b>Vehicle Deathmatch (VDM)</b></td><td>Menggunakan kendaraan sebagai senjata utama untuk menabrak dan membunuh player lain hingga tewas.</td></tr>
+<tr><td><b>Character Customization Abuse</b></td><td>Membuat postur tubuh karakter menjadi terlalu kecil atau aneh agar sulit ditembak oleh musuh.</td></tr>
+<tr><td><b>Non-RP Injury</b></td><td>Mengabaikan rasa sakit setelah mengalami kecelakaan hebat dan langsung berlari atau mengemudi seperti biasa.</td></tr>
+<tr><td><b>Gross Roleplay</b></td><td>Melakukan tindakan menjijikkan seperti membuang kotoran atau memutilasi tubuh tanpa persetujuan OOC dari pihak korban.</td></tr>
+<tr><td><b>Terrorism RP</b></td><td>Melakukan aksi teror skala besar seperti meledakkan fasilitas umum tanpa izin tertulis dari manajemen server.</td></tr>
+<tr><td><b>Corrupt Government Office</b></td><td>Menjadi petugas hukum yang korup, menerima suap, atau menjual senjata dinas tanpa persetujuan whitelist khusus.</td></tr>
+<tr><td><b>Meta-gaming NameTag</b></td><td>Memanggil nama player lain yang tertera di atas kepala mereka padahal belum pernah berkenalan secara IC.</td></tr>
+<tr><td><b>Server Advertising</b></td><td>Mempromosikan server roleplay lain di dalam area obrolan teks atau suara server yang sedang dimainkan.</td></tr>
+<tr><td><b>Account Sharing</b></td><td>Meminjamkan akun server kepada orang lain untuk dimainkan, yang dapat merusak reputasi karakter.</td></tr>
+<tr><td><b>Real Money Trading (RMT)</b></td><td>Menjual atau membeli aset in-game (uang, mobil, rumah) menggunakan uang asli di dunia nyata.</td></tr>
+<tr><td><b>Exploiting Whitelist</b></td><td>Menyalahgunakan hak istimewa pekerjaan Whitelist (seperti Medis atau Polisi) untuk keuntungan pribadi atau teman gang.</td></tr>
+<tr><td><b>Faction Impersonation</b></td><td>Menyamar sebagai petugas kepolisian atau medis menggunakan baju dinas palsu tanpa roleplay kriminal yang matang.</td></tr>
+<tr><td><b>Illegal Raiding</b></td><td>Melakukan penyerbuan ke markas faksi resmi tanpa mematuhi syarat jumlah personel minimum yang aktif.</td></tr>
+<tr><td><b>Power-Gaming Call</b></td><td>Melakukan panggilan darurat ke polisi saat karakter dalam kondisi terikat, pingsan, atau ditodong senjata.</td></tr>
+<tr><td><b>Exaggerated RP</b></td><td>Melebih-lebihkan kemampuan fisik karakter layaknya superhero yang kebal peluru atau bisa melompat sangat tinggi.</td></tr>
+<tr><td><b>Non-RP Weapon Storage</b></td><td>Menyimpan senjata laras panjang di dalam pakaian tipis seperti celana pendek atau kaos dalam.</td></tr>
+<tr><td><b>Stealing Emergency Vehicle</b></td><td>Mencuri mobil ambulans atau mobil pemadam kebakaran yang sedang bertugas tanpa alasan darurat hidup-mati.</td></tr>
+<tr><td><b>Ghost Riding</b></td><td>Melompat keluar dari kendaraan yang sedang melaju kencang dan membiarkannya menabrak area kerumunan.</td></tr>
+<tr><td><b>Meta-gaming Discord Logs</b></td><td>Melihat log aktivitas discord faksi untuk mengantisipasi pergerakan musuh di dalam game.</td></tr>
+<tr><td><b>OOC Toxic</b></td><td>Menyebarkan aura negatif, drama, atau kebencian antar komunitas di luar jam bermain roleplay.</td></tr>
+<tr><td><b>Quitting During Jailtime</b></td><td>Sengaja log-out saat karakter sedang menjalani hukuman penjara waktu nyata agar durasinya cepat habis.</td></tr>
+<tr><td><b>Illegal Custom Script</b></td><td>Menggunakan modifikasi makro atau script pihak ketiga untuk mempermudah pengerjaan pekerjaan legal (seperti menambang).</td></tr>
+<tr><td><b>Power-Gaming Search</b></td><td>Menggeledah barang bawaan player lain tanpa menggunakan perintah /me dan /do untuk memberikan kesempatan respons.</td></tr>
+<tr><td><b>Force RP</b></td><td>Memaksakan jalan cerita sepihak yang harus dituruti oleh player lain tanpa peduli pilihan alternatif mereka.</td></tr>
+<tr><td><b>Abusing Voice Range</b></td><td>Sengaja berteriak menggunakan setelan mic terjauh agar suara terdengar ke dalam ruangan tertutup atau bangunan lain.</td></tr>
+<tr><td><b>Unrealistic Repair</b></td><td>Memperbaiki mesin mobil yang meledak total hanya menggunakan sebuah obeng dalam waktu dua detik.</td></tr>
+<tr><td><b>Vehicle Flipping RP</b></td><td>Membalikkan mobil yang terbalik menggunakan otot karakter secara langsung tanpa bantuan dongkrak atau mobil derek.</td></tr>
+<tr><td><b>Meta-gaming Location</b></td><td>Mengetahui markas rahasia sebuah gang karena membaca info dari thread pendaftaran faksi di forum OOC.</td></tr>
+<tr><td><b>Safezone Camping</b></td><td>Menunggu tepat di batas luar Greenzone untuk merampok player yang baru saja keluar dari area aman tersebut.</td></tr>
+<tr><td><b>Spamming Commands</b></td><td>Menekan tombol perintah teks (seperti /report atau /ask) berulang-ulang hingga memenuhi layar chat admin.</td></tr>
+<tr><td><b>Non-RP Escorting</b></td><td>Menyeret atau menuntun tahanan sambil berlari kencang atau melompati pagar tinggi.</td></tr>
+<tr><td><b>Car Surfing</b></td><td>Sengaja berdiri atau jongkok di atas atap mobil yang sedang melaju kencang tanpa melakukan pegangan yang logis.</td></tr>
+<tr><td><b>Weapon Remapping Abuse</b></td><td>Mengubah keybind senjata agar bisa melakukan trik menembak cepat (fast-switching) yang melewati jeda kokang.</td></tr>
+<tr><td><b>OOC Trading</b></td><td>Menjanjikan item in-game kepada player lain sebagai imbalan bantuan tugas sekolah atau pekerjaan di dunia nyata.</td></tr>
+<tr><td><b>Non-RP Stealing</b></td><td>Mencuri barang di tempat yang dijaga ketat oleh banyak CCTV dan satpam tanpa melakukan trik penyamaran.</td></tr>
+<tr><td><b>Power-Gaming Cuff</b></td><td>Memborgol tangan pelaku kriminal dari jarak jauh atau saat pelaku sedang berlari menghindar.</td></tr>
+<tr><td><b>Radio Meta-Communication</b></td><td>Berbicara melalui radio internal game untuk memberikan info koordinat saat karakter sedang pingsan/down.</td></tr>
+<tr><td><b>Hostage Restrictions</b></td><td>Menggunakan sandera palsu (teman sendiri yang diajak kerja sama) untuk melakukan negosiasi perampokan bank dengan polisi.</td></tr>
+<tr><td><b>Sniping Without RP</b></td><td>Menembak target dari jarak sangat jauh menggunakan sniper rifle tanpa adanya latar belakang konflik yang melandasinya.</td></tr>
+<tr><td><b>Non-RP Torture</b></td><td>Melakukan tindakan penyiksaan sadis yang berlebihan tanpa adanya persetujuan OOC atau izin tertulis dari admin.</td></tr>
+<tr><td><b>Abusing Character Animation</b></td><td>Menggunakan animasi tiarap atau duduk untuk menyembunyikan tubuh di dalam objek solid agar tidak terlihat polisi.</td></tr>
+<tr><td><b>Fake Reporting</b></td><td>Melaporkan player lain ke admin atas tuduhan palsu hanya karena tidak terima kalah dalam situasi roleplay.</td></tr>
+<tr><td><b>IC/OOC Separation Fail</b></td><td>Membenci seorang pemain di dunia nyata hanya karena karakter yang dimainkannya menjadi musuh jahat di dalam game.</td></tr>
+<tr><td><b>Illegal Modification</b></td><td>Memasang modifikasi kendaraan yang sangat ekstrem hingga merusak batas hit-box standar mobil tersebut.</td></tr>
+<tr><td><b>Power-Gaming Lockpick</b></td><td>Membuka gembok brankas baja berukuran raksasa dalam waktu satu detik tanpa alat bantu yang memadai.</td></tr>
+<tr><td><b>Speed-Baiting</b></td><td>Sengaja mengebut di depan pos polisi lalu mengerem mendadak agar polisi mau mengejar kendaraannya.</td></tr>
+<tr><td><b>Non-RP Mechanic</b></td><td>Memasang komponen mesin balap ke dalam mobil tua yang karatan tanpa adanya proses modifikasi sasis yang logis.</td></tr>
+<tr><td><b>Meta-gaming Stream Sniper</b></td><td>Sengaja mendatangi lokasi streamer populer untuk mengacaukan skenario roleplay yang sedang mereka bangun.</td></tr>
+<tr><td><b>OOC Threatening</b></td><td>Mengancam akan meretas akun, menyebarkan data pribadi (doxxing), atau memukuli pemain lain di dunia nyata.</td></tr>
+<tr><td><b>Non-RP Medical Treatment</b></td><td>Petugas medis yang langsung menyuntikkan obat tanpa memeriksa detak jantung atau luka luar pasien terlebih dahulu.</td></tr>
+<tr><td><b>Abusing Lightbars</b></td><td>Menyalakan sirine dan lampu rotator polisi hanya untuk menerobos lampu merah saat ingin membeli makanan.</td></tr>
+<tr><td><b>Unrealistic Economy RP</b></td><td>Menjual sebotol air mineral seharga satu miliar rupiah demi memindahkan aset kekayaan antar akun.</td></tr>
+<tr><td><b>Power-Gaming Breakout</b></td><td>Meloloskan diri dari sel tahanan mapolres dengan mengklaim menjebol jeruji besi menggunakan tangan kosong.</td></tr>
+<tr><td><b>Non-RP Weapon Draw</b></td><td>Mengeluarkan senjata otomatis berukuran besar dari dalam saku celana tanpa adanya narasi /me yang jelas.</td></tr>
+<tr><td><b>Camp-Spawn</b></td><td>Menunggu player lain yang baru masuk ke dalam server tepat di titik spawn untuk langsung merampoknya.</td></tr>
+<tr><td><b>Interfering Ongoing RP</b></td><td>Sengaja menabrakkan diri ke kerumunan orang yang sedang melakukan upacara atau rapat faksi resmi.</td></tr>
+<tr><td><b>Meta-gaming Job Info</b></td><td>Mengetahui lokasi ladang ganja ilegal karena melihat bocoran map yang dikirim teman di grup WhatsApp OOC.</td></tr>
+<tr><td><b>Non-RP Flight Altitude</b></td><td>Menerbangkan pesawat jet komersial sangat rendah di sela-sela gedung perkotaan hanya untuk bersenang-senang.</td></tr>
+<tr><td><b>Abusing Inventory Capacity</b></td><td>Membawa muatan puluhan balok kayu besar di dalam kantong celana karakter tanpa menggunakan bagasi mobil.</td></tr>
+<tr><td><b>Power-Gaming Revive</b></td><td>Membangunkan orang mati menggunakan segelas air putih tanpa penanganan medis resusitasi jantung (CPR).</td></tr>
+<tr><td><b>OOC Evading</b></td><td>Sengaja mengabaikan panggilan admin di dalam game yang menyuruh untuk masuk ke dalam ruang khusus interogasi OOC.</td></tr>
+<tr><td><b>Non-RP Driving Offroad</b></td><td>Membawa mobil sport mewah ber-ground clearance rendah untuk mendaki gunung berbatu yang terjal.</td></tr>
+<tr><td><b>Abusing Job Vehicle</b></td><td>Menggunakan truk sampah atau bus kota untuk keperluan balapan liar bersama komunitas mobil sport.</td></tr>
+<tr><td><b>Meta-gaming Group Chat</b></td><td>Mengatur strategi penyergapan markas musuh melalui chat grup Line atau Discord sebelum masuk ke dalam game.</td></tr>
+<tr><td><b>Fake Name RP</b></td><td>Menggunakan nama tokoh terkenal di dunia nyata (seperti Adolf Hitler atau Barack Obama) untuk nama karakter RP.</td></tr>
+<tr><td><b>Non-RP Body Disposal</b></td><td>Membuang mayat korban pembunuhan di tengah jalan raya yang ramai dan penuh dengan kamera pengawas polisi.</td></tr>
+<tr><td><b>Power-Gaming Information</b></td><td>Memaksa player lain menjawab pertanyaan /do secara jujur mengenai isi pikiran atau perasaan terdalam karakter mereka.</td></tr>
+<tr><td><b>OOC Grudge</b></td><td>Membawa dendam kekalahan dari game kompetitif lain untuk menyerang pemain tersebut di server roleplay.</td></tr>
+<tr><td><b>Abusing Red Light</b></td><td>Sengaja menerobos semua lampu merah sepanjang jalan tanpa memperhatikan keselamatan pengguna jalan lain secara IC.</td></tr>
+<tr><td><b>Non-RP Hunting</b></td><td>Berburu hewan liar di tengah kota menggunakan senjata otomatis jenis senapan serbu (assault rifle).</td></tr>
+<tr><td><b>Meta-gaming Radio Frequency</b></td><td>Menyamakan frekuensi radio dengan musuh secara acak tanpa adanya proses pencurian info radio secara IC.</td></tr>
+<tr><td><b>Power-Gaming Drug Effect</b></td><td>Mengklaim efek obat terlarang membuat karakter menjadi kebal api dan tidak bisa merasakan sakit sama sekali.</td></tr>
+<tr><td><b>Non-RP Clothing</b></td><td>Menggunakan setelan pakaian transparan atau tanpa tekstur (bugged clothing) yang merusak pemandangan visual server.</td></tr>
+<tr><td><b>Abusing Elevators</b></td><td>Sengaja naik turun lift gedung berkali-kali secara instan untuk meloloskan diri dari kejaran musuh yang mengepung.</td></tr>
+<tr><td><b>Meta-gaming ID Above Head</b></td><td>Menuduh seorang player melakukan kejahatan hanya karena melihat nomor ID di atas kepalanya cocok dengan info laporan OOC.</td></tr>
+<tr><td><b>Power-Gaming Lockpick v2</b></td><td>Mengklaim berhasil membobol gembok digital berlapis enkripsi militer hanya dengan sebatang kawat tipis.</td></tr>
+<tr><td><b>Non-RP Swimming Pool</b></td><td>Sengaja menceburkan mobil ke kolam renang rumah warga demi memadamkan api yang membakar mesin mobil.</td></tr>
+<tr><td><b>Abusing Map Boundary</b></td><td>Sengaja berdiri tepat di batas akhir peta dunia game agar sistem memaksa karakter teleportasi mundur ke area aman.</td></tr>
+<tr><td><b>Meta-gaming Discord Calls</b></td><td>Mendengarkan arahan pergerakan musuh dari teman yang sedang tidak aktif di server melalui panggilan suara Discord.</td></tr>
+<tr><td><b>Power-Gaming Stealth Knockout</b></td><td>Mengklaim bisa membuat pingsan lima orang penjaga bersenjata sekaligus secara diam-diam tanpa menimbulkan suara gaduh.</td></tr>
+<tr><td><b>Non-RP Traffic Rules</b></td><td>Mengemudikan kendaraan melawan arus di jalur cepat jalan tol tanpa menyalakan lampu darurat atau sirine.</td></tr>
+<tr><td><b>Abusing Invisible Hitbox</b></td><td>Berlindung di balik objek hiasan jalan yang memiliki ukuran visual kecil namun memiliki batas pelindung peluru yang sangat besar.</td></tr>
+<tr><td><b>Meta-gaming Stream Sniping v2</b></td><td>Sengaja memarkirkan mobil curian di depan jalur yang akan dilewati oleh streamer agar mereka menabraknya secara live.</td></tr>
+<tr><td><b>Power-Gaming Instant Heal</b></td><td>Mengklaim luka tembak di kaki langsung sembuh total setelah dibalut dengan selembar tisu basah.</td></tr>
+<tr><td><b>Non-RP Public Show</b></td><td>Melakukan aksi sulap ekstrem atau atraksi api di tengah koridor rumah sakit saat para dokter sedang menangani pasien kritis.</td></tr>
+<tr><td><b>Abusing Animation Wheel</b></td><td>Menggunakan menu roda animasi berulang kali secara cepat untuk membatalkan efek jatuh dari ketinggian.</td></tr>
+<tr><td><b>Meta-gaming Forum Application</b></td><td>Menggunakan kelemahan psikologis karakter lawan yang tertulis di formulir pendaftaran faksi OOC untuk mengintimidasi mereka secara IC.</td></tr>
+<tr><td><b>Power-Gaming Unbreakable Rope</b></td><td>Mengklaim tali jemuran yang digunakan untuk mengikat sandera tidak bisa dipotong menggunakan pisau komando.</td></tr>
+<tr><td><b>Non-RP Construction Climb</b></td><td>Memanjat struktur besi crane bangunan yang sedang beroperasi tanpa menggunakan tali pengaman atau instruksi dari mandor.</td></tr>
+<tr><td><b>Abusing Garage System</b></td><td>Sengaja memasukkan mobil yang berasap tebal ke dalam garasi otomatis agar mobil tersebut langsung kembali dalam kondisi mulus.</td></tr>
+<tr><td><b>Meta-gaming Steam Bio v2</b></td><td>Mengetahui bahwa seorang player adalah admin tersembunyi berdasarkan daftar grup komunitas yang mereka ikuti di profil Steam.</td></tr>
+<tr><td><b>Power-Gaming Infinite Stamina</b></td><td>Mengklaim karakter memiliki paru-paru buatan yang membuatnya bisa berlari menanjak gunung tanpa perlu berhenti untuk bernapas.</td></tr>
+<tr><td><b>Non-RP Weapon Crafting</b></td><td>Merakit senapan mesin otomatis di atas meja makan rumah tanpa menggunakan cetakan biru, mesin bubut, atau alat perkakas yang sesuai.</td></tr>
+<tr><td><b>Abusing Door Teleport</b></td><td>Sengaja bolak-balik keluar masuk pintu toko untuk mengelabui animasi tembakan senjata dari player yang berjaga di luar.</td></tr>
+<tr><td><b>Meta-gaming WhatsApp Group</b></td><td>Membagikan foto hasil tangkapan layar lokasi transaksi narkoba ke grup WhatsApp faksi sebelum melakukan penggerebekan di game.</td></tr>
+<tr><td><b>Power-Gaming Armor Plate v2</b></td><td>Mengklaim rompi antipeluru yang dipakai memiliki teknologi reflektor yang bisa membalikkan arah peluru ke penembaknya.</td></tr>
+<tr><td><b>Non-RP Cargo Transport</b></td><td>Membawa muatan minyak mentah cair menggunakan truk bak terbuka tanpa menggunakan tangki khusus kedap udara.</td></tr>
+<tr><td><b>Abusing Brake System</b></td><td>Memanfaatkan bug kombinasi tombol rem tangan dan rem biasa agar mobil sport bisa berhenti instan dari kecepatan maksimum.</td></tr>
+<tr><td><b>Meta-gaming Voice Tone v2</b></td><td>Memastikan identitas seorang pembunuh bayaran berkedok topeng badut hanya karena ia memiliki ketawa khas yang sering terdengar di Discord OOC.</td></tr>
+<tr><td><b>Power-Gaming Lie Detector v2</b></td><td>Mengklaim detak nadi di pergelangan tangan korban yang berdegup kencang menjadi bukti mutlak bahwa ia sedang berbohong secara IC.</td></tr>
+<tr><td><b>Non-RP Street Racing v2</b></td><td>Mengadakan balapan liar motor trail di dalam terowongan kereta bawah tanah yang masih aktif dilewati kereta komuter.</td></tr>
+<tr><td><b>Abusing Crouch System</b></td><td>Berjalan sambil jongkok secara terus-menerus di area terbuka agar nama karakter (NameTag) tersembunyi dari pandangan musuh.</td></tr>
+<tr><td><b>Meta-gaming Twitter Post</b></td><td>Mendatangi koordinat lokasi pesta pantai setelah melihat unggahan foto selfie seorang player di akun Twitter OOC miliknya.</td></tr>
+<tr><td><b>Power-Gaming Heavy Lift</b></td><td>Mengklaim mampu menggendong dua orang yang sedang pingsan sambil melompati pagar pembatas setinggi dua meter.</td></tr>
+<tr><td><b>Non-RP Emergency Call v2</b></td><td>Mengirim pesan darurat ke mekanik dengan teks banyolan atau ejekan hanya untuk membuang-buang waktu kerja mereka.</td></tr>
+<tr><td><b>Abusing Vehicle Trunk v2</b></td><td>Memasukkan tiga orang dewasa ke dalam bagasi mobil sedan kecil yang secara logika kapasitasnya hanya muat untuk barang bawaan.</td></tr>
+<tr><td><b>Meta-gaming Admin Log v2</b></td><td>Mengetahui bahwa rumahnya sedang diincar rampok setelah tidak sengaja melihat obrolan admin yang sedang memantau area tersebut.</td></tr>
+<tr><td><b>Power-Gaming Bullet Extraction v2</b></td><td>Mengklaim berhasil mengeluarkan serpihan granat dari punggung sendiri menggunakan sendok makan yang dipanaskan api lilin.</td></tr>
+<tr><td><b>Non-RP Business Place</b></td><td>Membuka lapak penjualan kembang api eceran di dalam area kilang minyak atau pom bensin yang rawan memicu ledakan besar.</td></tr>
+<tr><td><b>Abusing Seat Changing v2</b></td><td>Berpindah dari kursi belakang ke kursi kemudi secara instan saat mobil sedang melaju kencang setelah sopir utamanya tertembak mati.</td></tr>
+<tr><td><b>Meta-gaming Forum Avatar v2</b></td><td>Menolak bekerja sama dengan seorang player karena gambar profil forumnya menampilkan logo kelompok gang musuh bebuyutan.</td></tr>
+<tr><td><b>Power-Gaming Bulletproof Glass</b></td><td>Mengklaim kaca depan helm motor yang dipakai terbuat dari bahan polikarbonat militer yang tidak hancur diterjang peluru shotgun.</td></tr>
+<tr><td><b>Non-RP Camping Site</b></td><td>Mendirikan tenda dan membakar ikan di atas landasan helipad gedung pencakar langit yang sedang bersiap menerima pendaratan.</td></tr>
+<tr><td><b>Abusing Invisible Walls v2</b></td><td>Sengaja memarkirkan bagian belakang kendaraan mepet dengan dinding batas map yang tidak bisa dilewati agar tidak bisa diakses orang lain.</td></tr>
+<tr><td><b>Meta-gaming Twitch Clips v2</b></td><td>Mengubah rute pelarian kru perampok bank setelah melihat klip siaran langsung polisi yang sudah memasang jebakan paku di depan jalan.</td></tr>
+<tr><td><b>Power-Gaming Wiretapping v2</b></td><td>Mengklaim bisa menyadap pesan teks WhatsApp karakter lain hanya dengan melihat nomor telepon mereka secara sekilas.</td></tr>
+<tr><td><b>Non-RP Street Racing v3</b></td><td>Mengadakan balapan mobil sport di dalam area pemukiman padat penduduk yang gangnya sempit dan banyak anak kecil.</td></tr>
+<tr><td><b>Abusing Repair Kit v2</b></td><td>Menggunakan item kompresor portabel untuk mengisi ban mobil yang robek total akibat terkena jebakan paku polisi secara instan.</td></tr>
+<tr><td><b>Meta-gaming Forum Bio v2</b></td><td>Sengaja menjebak karakter lawan dengan membawa barang yang menjadi fobia terbesar mereka berdasarkan cerita karakter di forum.</td></tr>
+<tr><td><b>Power-Gaming Handcuff Break v2</b></td><td>Mengklaim bisa melepaskan borgol taktis menggunakan gesper ikat pinggang biasa dalam waktu kurang dari tiga detik.</td></tr>
+<tr><td><b>Non-RP Kidnapping v2</b></td><td>Menculik seorang jaksa wilayah tepat di depan ruang sidang yang sedang dijaga ketat oleh belasan aparat bersenjata.</td></tr>
+<tr><td><b>Abusing Crouch Mechanic v2</b></td><td>Sengaja melakukan trik jongkok-berdiri kilat saat memegang pisau agar jangkauan serangannya menjadi lebih jauh dari normal.</td></tr>
+<tr><td><b>Meta-gaming Status Channel v2</b></td><td>Membatalkan rencana pengiriman paket barang ilegal setelah melihat indikator bot Discord menunjukkan ada lima detektif sedang patroli.</td></tr>
+<tr><td><b>Power-Gaming Blindfold v2</b></td><td>Mengklaim kain penutup mata korban diikat menggunakan simpul mati berlapis besi sehingga tidak bisa dilepas oleh orang lain.</td></tr>
+<tr><td><b>Non-RP Helicopter Landing v2</b></td><td>Mendaratkan helikopter komersial di atas jembatan gantung yang bergoyang runtuh demi mengambil foto pemandangan secara IC.</td></tr>
+<tr><td><b>Abusing Siren System v2</b></td><td>Menyalakan sirine ambulans palsu yang dipasang di mobil pribadi untuk membubarkan antrean macet di gerbang tol kota.</td></tr>
+<tr><td><b>Meta-gaming Admin Log v3</b></td><td>Mengetahui identitas asli admin yang sedang menyamar sebagai warga sipil dengan cara mencocokkan pola ketikannya di chatbox.</td></tr>
+<tr><td><b>Power-Gaming Memory Wipe v2</b></td><td>Mengklaim benturan ringan di kepala akibat jatuh dari sepeda bisa menghapus seluruh ingatan karakter tentang daftar utang piutangnya.</td></tr>
+<tr><td><b>Non-RP Fire v2</b></td><td>Sengaja membakar ban bekas di dalam lobi bank utama dengan tujuan memancing sistem sprinkler air agar menyala dan merusak server.</td></tr>
+<tr><td><b>Abusing Armor Vest v2</b></td><td>Mengklaim rompi pelindung yang hancur bisa pulih kembali otomatis hanya dengan berdiri diam di dekat boks pertolongan pertama.</td></tr>
+<tr><td><b>Meta-gaming Group Name v2</b></td><td>Menolak bertransaksi dengan seseorang karena nama tag nama di atas kepalanya memiliki kode warna yang sama dengan faksi kartel.</td></tr>
+<tr><td><b>Power-Gaming Super Jump v2</b></td><td>Mengklaim karakter bisa melakukan lompatan dinding (wall-jump) ala ninja untuk naik ke lantai tiga gedung tanpa tangga.</td></tr>
+<tr><td><b>Non-RP Diving v2</b></td><td>Menyelam ke dalam tangki pembuangan limbah beracun pabrik kimia tanpa menggunakan baju pelindung hazmat yang sesuai.</td></tr>
+<tr><td><b>Abusing Character Model v2</b></td><td>Sengaja memakai kostum maskot badut berukuran raksasa agar bentuk asli hit-box tubuh karakter menjadi membingungkan bagi penembak.</td></tr>
+<tr><td><b>Meta-gaming Spreadsheet v2</b></td><td>Mengetahui jadwal piket malam penjaga gudang peluru faksi lawan setelah meretas tautan Google Drive OOC milik ketua faksi mereka.</td></tr>
+<tr><td><b>Power-Gaming Poison v2</b></td><td>Mengklaim gas beracun yang dilemparkan bisa menembus masker gas militer yang sedang digunakan oleh pasukan khusus polisi.</td></tr>
+<tr><td><b>Non-RP Car Tuning v2</b></td><td>Memasang tabung nitro (NOS) berukuran raksasa di dalam kabin penumpang mobil mini tanpa adanya sekat pelindung suhu panas.</td></tr>
+<tr><td><b>Abusing Server Reset v2</b></td><td>Sengaja menunda penandatanganan surat perjanjian sita aset hingga menit-menit terakhir sebelum server melakukan maintenance berkala.</td></tr>
+<tr><td><b>Meta-gaming OOC Chat v2</b></td><td>Meminta bantuan dana darurat kepada penonton lewat fitur siaran OOC demi membayar denda tilang kendaraan yang sangat mahal.</td></tr>
+<tr><td><b>Power-Gaming Exoskeleton v2</b></td><td>Mengklaim jaket kulit yang dipakai dilapisi serat karbon khusus yang membuatnya kebal dari serangan sabetan pedang katana.</td></tr>
+<tr><td><b>Non-RP Construction Site v2</b></td><td>Menjadikan area semen basah di proyek pembangunan sebagai arena balap motor cross bersama teman-teman kelompoknya.</td></tr>
+<tr><td><b>Abusing First Person View v2</b></td><td>Menggunakan sudut pandang orang pertama untuk menembakkan shotgun dari balik celah sempit ventilasi udara yang mustahil dilewati peluru.</td></tr>
+<tr><td><b>Meta-gaming Stream Chat v2</b></td><td>Mengikuti petunjuk penonton di kolom obrolan streaming yang memberi tahu bahwa ada musuh sedang bersembunyi di dalam semak-semak.</td></tr>
+<tr><td><b>Power-Gaming Lie Detector v3</b></td><td>Mengklaim perubahan nada suara target saat berbicara menjadi bukti mutlak bahwa ia adalah mata-mata kiriman faksi musuh.</td></tr>
+<tr><td><b>Non-RP Cargo v2</b></td><td>Membawa puluhan botol kaca berisi bahan kimia mudah meledak di dalam keranjang depan sepeda ontel tanpa pengaman tambahan.</td></tr>
+<tr><td><b>Abusing Ping/Lag v2</b></td><td>Sengaja mengunduh file berukuran besar saat baku tembak agar karakter mengalami desingkronisasi visual dan kebal dari peluru.</td></tr>
+<tr><td><b>Meta-gaming Shared Notes v2</b></td><td>Mengetahui lokasi penimbunan senjata ilegal kelompok lain dari dokumen rahasia yang tidak sengaja terunggah di grup Discord publik.</td></tr>
+<tr><td><b>Power-Gaming Thermal Vision v2</b></td><td>Mengklaim insting karakter sekor serigala membuatnya bisa mencium bau mesiu dari jarak satu kilometer di dalam kota.</td></tr>
+<tr><td><b>Non-RP Roadblock v2</b></td><td>Memasang tumpukan ban bekas di tengah jalur landasan pacu pesawat terbang untuk menghalangi jet pribadi milik pengusaha lepas landas.</td></tr>
+<tr><td><b>Abusing Engine Toggle v2</b></td><td>Mematikan mesin mobil saat meluncur di turunan bukit curam agar suara kendaraan tidak terdeteksi oleh radar pengejar di bawah.</td></tr>
+<tr><td><b>Meta-gaming Voice Tone v3</b></td><td>Menangkap seorang informan polisi hanya karena frekuensi napasnya di radio terdengar mirip dengan teman satu selnya dulu.</td></tr>
+<tr><td><b>Power-Gaming Body Weight v2</b></td><td>Mengklaim karakter memiliki tulang beton yang membuatnya tidak akan bergeser sedikit pun meski ditabrak oleh motor sport kencang.</td></tr>
+<tr><td><b>Non-RP Boxing v2</b></td><td>Mengadakan turnamen judi sabung manusia di dalam ruang tunggu stasiun kereta utama saat jam sibuk kerja kantoran.</td></tr>
+<tr><td><b>Abusing Seat Changing v3</b></td><td>Sengaja pindah ke kursi tengah mobil van saat melaju cepat agar bisa menembakkan senapan mesin dengan stabil tanpa gangguan kemudi.</td></tr>
+<tr><td><b>Meta-gaming Forum Avatar v3</b></td><td>Sengaja mengabaikan perintah seorang kapten polisi karena gambar profil forumnya menunjukkan ia adalah pemain baru di server.</td></tr>
+<tr><td><b>Power-Gaming Bulletproof Car v2</b></td><td>Mengklaim seluruh bodi mobil van tumpangan telah dilapisi semen cor tebal sehingga tidak bisa ditembus oleh peluru kaliber besar.</td></tr>
+<tr><td><b>Non-RP Camping v2</b></td><td>Mendirikan kemah pramuka lengkap dengan api unggun di atas atap halte bus kota yang berada di jalur protokol utama.</td></tr>
+<tr><td><b>Abusing Invisible Walls v3</b></td><td>Sengaja memarkirkan motor mepet ke area pembatas dimensi peta agar player lain tidak bisa melakukan interaksi opsi penguncian.</td></tr>
+<tr><td><b>Incitement to Break Rules</b></td><td>Mengajak atau menghasut player lain melalui saluran komunikasi OOC untuk bersama-sama melanggar aturan baku server.</td></tr>
+<tr><td><b>Admin Disrespect</b></td><td>Mengeluarkan kata-kata kasar, menghina, atau merendahkan tugas moderator/admin yang sedang menolak laporan peninjauan kasus.</td></tr>
+<tr><td><b>Powergaming Cuffing</b></td><td>Memborgol tangan tersangka kriminal dari balik dinding beton memanfaatkan celah hit-box karakter yang menembus bangunan.</td></tr>
+<tr><td><b>Metagaming Whitelist</b></td><td>Memanfaatkan status pekerjaan medis untuk mencari tahu nama asli korban kecelakaan yang datanya tertera di sistem database faksi.</td></tr>
+<tr><td><b>Non-RP Driving SUV</b></td><td>Mengemudikan mobil SUV keluarga berkecepatan tinggi untuk melompati sungai selebar sepuluh meter demi menghindari macet.</td></tr>
+<tr><td><b>Abusing Headlights v2</b></td><td>Sengaja memodifikasi warna lampu depan kendaraan menjadi sangat silau (putih pekat) untuk mengaburkan pandangan kamera lawan.</td></tr>
+<tr><td><b>Meta-gaming Screenshot v2</b></td><td>Menggunakan foto bukti transfer uang OOC yang dikirim lewat Discord sebagai dasar penuntutan pembagian hasil bisnis secara IC.</td></tr>
+<tr><td><b>Power-Gaming Armor Plate v3</b></td><td>Mengklaim pelat baja di dalam rompinya bisa menyerap energi ledakan granat tangan tanpa membuat karakter terlempar mundur.</td></tr>
+<tr><td><b>Non-RP Emergency Call v3</b></td><td>Membuat laporan darurat ke dinas pemadam kebakaran mengenai adanya naga terbang yang membakar gedung balai kota setempat.</td></tr>
+<tr><td><b>Abusing Vehicle Physics v2</b></td><td>Sengaja melaju mundur menggunakan truk gandeng dengan kecepatan penuh agar bagian ekor truk bisa menggilas barikade polisi.</td></tr>
+<tr><td><b>Meta-gaming Stream Title v2</b></td><td>Mengetahui bahwa kelompok gang lawan sedang mengalami krisis internal karena judul streaming ketuanya tertulis sedang stres berat.</td></tr>
+<tr><td><b>Power-Gaming Restrain v2</b></td><td>Mengunci pergerakan lawan menggunakan borgol plastik (flex-cuff) dengan klaim kunci pengikatnya hanya bisa dibuka dengan kapak besi.</td></tr>
+<tr><td><b>Non-RP Business v2</b></td><td>Membuka konter pulsa dan jasa servis handphone ilegal di dalam area terlarang pangkalan militer Angkatan Laut.</td></tr>
+<tr><td><b>Abusing Door Mechanic v2</b></td><td>Sengaja mematikan aliran listrik rumah sewaan menggunakan perintah script agar pintu otomatis terkunci permanen dan musuh terjebak.</td></tr>
+<tr><td><b>Meta-gaming Private Message v2</b></td><td>Meminta teman faksi untuk segera masuk ke dalam server (login) melalui pesan teks (/pm) OOC karena markas sedang diserang kelompok lain.</td></tr>
+<tr><td><b>Power-Gaming Injection v2</b></td><td>Menyuntikkan cairan pelumpuh otot ke leher korban dari arah depan saat korban sedang memegang dan membidikkan senapan serbu.</td></tr>
+<tr><td><b>Non-RP Parkour v2</b></td><td>Melakukan lompatan salto dari lantai dua mal langsung ke lantai dasar tanpa menggunakan tangga berjalan atau bantuan tali pelindung.</td></tr>
+<tr><td><b>Abusing Vehicle Insurance v2</b></td><td>Sengaja menaruh bom di mobil sendiri lalu meledakkannya di tempat sepi agar bisa mengeklaim ganti rugi unit baru dari sistem.</td></tr>
+<tr><td><b>Meta-gaming Friend List v2</b></td><td>Mengetahui seorang detektif sedang mengintai areanya karena nama akun detektif tersebut mendadak muncul di daftar aktif radar kota.</td></tr>
+<tr><td><b>Power-Gaming GPS Tracker v2</b></td><td>Mengklaim bisa melacak posisi mobil musuh hanya dengan menempelkan selembar stiker magnet biasa di bagian bemper belakang.</td></tr>
+<tr><td><b>Non-RP Prostitution v2</b></td><td>Menawarkan jasa prostitusi terselubung di dalam ruang tunggu kantor pelayanan publik pembuatan SIM milik kepolisian.</td></tr>
+<tr><td><b>Abusing Weapon Reload v2</b></td><td>Memanfaatkan animasi mengganti pakaian untuk melewati proses pengisian peluru senapan (reload) secara instan saat pertempuran.</td></tr>
+<tr><td><b>Meta-gaming Discord Bio v2</b></td><td>Mengetahui bahwa seorang warga biasa sebenarnya adalah bos mafia papan atas setelah melihat foto profil Discord OOC miliknya.</td></tr>
+<tr><td><b>Power-Gaming Bullet Extraction v3</b></td><td>Mengklaim berhasil menjahit luka robek di perut akibat sabetan gergaji mesin menggunakan benang jahit pakaian biasa secara mandiri.</td></tr>
+<tr><td><b>Non-RP Advertisement v2</b></td><td>Memasang pengumuman di papan reklame kota yang berisi ejekan pribadi kepada kelompok gang tertentu menggunakan bahasa gaul dunia nyata.</td></tr>
+<tr><td><b>Abusing Server Economy v2</b></td><td>Sengaja mentransfer seluruh kekayaan karakter ke akun pemain baru agar terhindar dari sanksi penyitaan harta oleh pengadilan IC.</td></tr>
+<tr><td><b>Meta-gaming Voice Recognition v4</b></td><td>Memastikan bahwa pelaku perampokan bank adalah tetangga rumahnya hanya karena mereka memiliki intonasi suara sengau yang mirip.</td></tr>
+<tr><td><b>Power-Gaming Kicking v2</b></td><td>Menendang ban mobil sport yang sedang melaju kencang hingga pelek mobil tersebut pecah dan mobilnya terbalik di jalan raya.</td></tr>
+<tr><td><b>Non-RP Graveyard v2</b></td><td>Melakukan modifikasi mesin motor dan uji coba knalpot brong di dalam area pemakaman saat prosesi pemakaman sedang berlangsung.</td></tr>
+<tr><td><b>Abusing Window Mechanic v2</b></td><td>Sengaja menurunkan kaca mobil hanya satu sentimeter agar bisa menembakkan pistol tanpa memicu animasi karakter membuka jendela.</td></tr>
+<tr><td><b>Meta-gaming Twitch Clips v3</b></td><td>Mengetahui rute pelarian rahasia kelompok penyelundup setelah menonton tayangan ulang siaran Twitch anggota mereka dua jam lalu.</td></tr>
+<tr><td><b>Power-Gaming Wiretapping v3</b></td><td>Mengklaim bisa mendengar percakapan rahasia di dalam ruangan kedap suara hanya dengan menempelkan segelas air di dinding luar.</td></tr>
+<tr><td><b>Non-RP Street Racing v4</b></td><td>Mengadakan ajang balap mobil formula di jalur lambat khusus bus umum yang sedang ramai penumpang mengantre.</td></tr>
+<tr><td><b>Abusing Repair Kit v3</b></td><td>Menggunakan kunci pas kecil untuk memperbaiki tangki bensin truk yang bocor parah akibat rentetan tembakan peluru kendali.</td></tr>
+<tr><td><b>Meta-gaming Forum Bio v3</b></td><td>Menargetkan serangan pada titik kelemahan fisik karakter lawan yang datanya didapatkan dari berkas riwayat medis faksi di forum OOC.</td></tr>
+<tr><td><b>Power-Gaming Handcuff Break v3</b></td><td>Mengklaim bisa meloloskan pergelangan tangan dari borgol besi karena struktur tulang tangkannya bisa digeser secara fleksibel.</td></tr>
+<tr><td><b>Non-RP Kidnapping v3</b></td><td>Menculik seorang perwira militer aktif di dalam area kantin barak pasukan saat jam makan siang tanpa penyamaran apa pun.</td></tr>
+<tr><td><b>Abusing Crouch Mechanic v3</b></td><td>Melakukan gerakan jongkok secara ritmis saat berjalan di atas genangan air agar suara langkah kaki tidak terdengar oleh sistem game.</td></tr>
+<tr><td><b>Meta-gaming Status Channel v3</b></td><td>Membatalkan aksi demonstrasi di depan gedung parlemen setelah melihat status bot Discord mengonfirmasi seluruh admin sedang sibuk.</td></tr>
+<tr><td><b>Power-Gaming Blindfold v3</b></td><td>Mengklaim penutup mata yang dipasang memancarkan gelombang elektromagnetik yang mengacaukan alat komunikasi di sekitar korban.</td></tr>
+<tr><td><b>Non-RP Helicopter Landing v3</b></td><td>Mendaratkan helikopter pribadi di atas kap mesin mobil patroli polisi yang sedang berhenti di lampu merah kota.</td></tr>
+<tr><td><b>Abusing Siren System v3</b></td><td>Sengaja menyalakan sirine pemadam kebakaran secara berulang-ulang di area pemukiman sepi pada jam tiga pagi hanya untuk iseng.</td></tr>
+<tr><td><b>Meta-gaming Admin Log v4</b></td><td>Mengetahui bahwa kelompoknya sedang dipantau oleh tim keamanan server setelah melihat pesan eror sistem OOC di pojok layar.</td></tr>
+<tr><td><b>Power-Gaming Memory Wipe v3</b></td><td>Mengklaim obat bius yang diberikan dokter bisa menghapus kemampuan karakter dalam mengoperasikan kendaraan bermotor selamanya.</td></tr>
+<tr><td><b>Non-RP Fire v3</b></td><td>Sengaja membakar tumpukan jerami di atas dek kapal pesiar mewah yang sedang berlayar di tengah laut tanpa alasan cerita yang logis.</td></tr>
+<tr><td><b>Abusing Armor Vest v3</b></td><td>Memasang pelat rompi antipeluru cadangan di tengah situasi dikejar anjing pelacak tanpa menghentikan kecepatan lari karakter.</td></tr>
+<tr><td><b>Meta-gaming Group Name v3</b></td><td>Mengetahui bahwa dua orang sipil adalah anggota sindikat narkoba internasional karena mereka memakai model sepatu OOC yang seragam.</td></tr>
+<tr><td><b>Power-Gaming Super Jump v3</b></td><td>Mengklaim teknik pernapasan khusus membuat karakter bisa melompat dari satu atap mobil ke atap mobil lain sejauh sepuluh meter.</td></tr>
+<tr><td><b>Non-RP Diving v3</b></td><td>Menyelam ke dalam kolam air mancur balai kota menggunakan pakaian selam lengkap dengan sirip kaki untuk mencari koin keberuntungan.</td></tr>
+<tr><td><b>Abusing Character Model v3</b></td><td>Sengaja mengubah ukuran tubuh karakter menjadi sangat kurus kering agar bisa bersembunyi di balik tiang listrik pembatas jalan.</td></tr>
+<tr><td><b>Meta-gaming Spreadsheet v3</b></td><td>Mengetahui daftar nama informan polisi yang menyusup ke faksi setelah mencuri file dokumen kerja milik kapten polisi di Google Drive OOC.</td></tr>
+<tr><td><b>Power-Gaming Poison v3</b></td><td>Mengklaim racun siannida cair yang diteteskan di minuman bisa menguap dan membunuh semua orang yang berada di dalam radius satu ruangan.</td></tr>
+<tr><td><b>Non-RP Car Tuning v3</b></td><td>Memasang roda berukuran raksasa milik truk monster ke bodi mobil sedan ceper hingga merusak sistem suspensi asli kendaraan.</td></tr>
+<tr><td><b>Abusing Server Reset v3</b></td><td>Sengaja memicu konflik besar dengan gang lawan sepuluh menit sebelum server mati otomatis agar pertempuran tidak memakan korban aset.</td></tr>
+<tr><td><b>Meta-gaming OOC Chat v3</b></td><td>Mengumumkan spesifikasi senjata dan harga jualnya di saluran obrolan global OOC agar cepat mendapatkan pembeli kaya dari faksi lain.</td></tr>
+<tr><td><b>Power-Gaming Exoskeleton v3</b></td><td>Mengklaim sarung tangan besi yang dipakai mengandung daya magnet tinggi yang bisa menarik paksa senjata dari tangan musuh secara instan.</td></tr>
+<tr><td><b>Non-RP Construction Site v3</b></td><td>Menggunakan alat berat ekskavator proyek untuk menghancurkan mobil warga sipil yang parkir sembarangan di dekat area galian.</td></tr>
+<tr><td><b>Abusing First Person View v3</b></td><td>Menggunakan pandangan orang pertama untuk menembakkan peluncur roket (RPG) dari dalam ruang toilet sempit tanpa terkena efek ledakan balik.</td></tr>
+<tr><td><b>Meta-gaming Stream Chat v3</b></td><td>Mengubah posisi persembunyian sandera setelah membaca pesan dari penonton stream yang memberi tahu polisi sudah berada di lantai dasar.</td></tr>
+<tr><td><b>Power-Gaming Lie Detector v4</b></td><td>Mengklaim suhu tubuh korban yang mendadak dingin menjadi bukti konkret bahwa ia menyembunyikan lokasi penyimpanan uang faksi.</td></tr>
+<tr><td><b>Non-RP Cargo v3</b></td><td>Mengangkut puluhan tabung gas elpiji bocor di dalam kabin mobil sedan tertutup tanpa membuka jendela udara sepanjang perjalanan.</td></tr>
+<tr><td><b>Abusing Ping/Lag v3</b></td><td>Sengaja memutuskan koneksi Wi-Fi selama lima detik saat mobil terperosok ke jurang agar posisi mobil kembali ke atas jalan raya.</td></tr>
+<tr><td><b>Meta-gaming Shared Notes v3</b></td><td>Mengetahui kombinasi angka sandi pintu gerbang markas musuh setelah membaca coretan di papan tulis digital server Discord OOC.</td></tr>
+<tr><td><b>Power-Gaming Thermal Vision v3</b></td><td>Mengklaim kacamata pelindung debu miliknya bisa melihat aliran darah target untuk mendeteksi apakah target sedang memakai rompi armor.</td></tr>
+<tr><td><b>Non-RP Roadblock v3</b></td><td>Memasang tumpukan kursi kayu kafe di tengah jalan raya utama kota untuk menutup akses jalan bagi rombongan konvoi presiden.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- MODAL POPUP FORM UNTUK TAMBAH FOTO WARGA -->
+        <div id="galeriModal" class="galeri-modal">
+            <div class="modal-content">
+                <h3 style="margin-top:0; color:var(--accent-color);"><i class="fas fa-camera"></i> Upload Foto Moment</h3>
+                <label>Nama Warga / Pengirim:</label>
+                <input type="text" id="galeri-uploader-name" class="admin-input" disabled style="background:#222; color:#888;">
+                <label>Tulis Caption / Cerita Foto:</label>
+                <input type="text" id="galeri-photo-desc" class="admin-input" placeholder="Contoh: Lagi nongkrong bareng fam..">
+                <label>Pilih Foto Dari Galeri:</label>
+                <input type="file" id="galeri-photo-file" class="file-upload-btn" accept="image/*">
+                
+                <button class="btn" style="background:var(--base-color); width:100%; margin-top:10px;" onclick="window.submitWargaGaleri()">KIRIM KE GALERI</button>
+                <button class="btn" style="background:#555; width:100%; margin-top:5px;" onclick="window.closeGaleriModal()">BATAL</button>
+            </div>
+        </div>
+
+        <!-- PANEL MANAGEMENT ADMIN -->
+        <div id="admin-panel">
+            <h2 style="color: var(--accent-color); border-bottom: 1px solid #444;">PANEL ADMIN NOCTIVE</h2>
+            
+            <label>Ganti IP Server:</label>
+            <input type="text" id="input-ip" class="admin-input" placeholder="Contoh: play.noctiverp.com:7777">
+            
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3 style="color: var(--base-color);"><i class="fas fa-edit"></i> Atur Wilayah & Base Faksi</h3>
+            <div id="admin-base-inputs-area" style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <label>Nama Faksi / Family:</label>
+                <input type="text" id="base-faksi-name" class="admin-input" placeholder="Contoh: Sinaloa Cartel">
+                <label>Nama Wilayah Base:</label>
+                <input type="text" id="base-faksi-zone" class="admin-input" placeholder="Contoh: El Corona Base">
+                <label>Pilih Foto Base dari Galeri:</label>
+                <input type="file" id="base-faksi-file" class="file-upload-btn" accept="image/*">
+                <button class="btn" style="background: var(--base-color); width: 100%;" onclick="window.addNewBaseItem()">+ TAMBAH WILAYAH BASE BARU</button>
+            </div>
+            
+            <label><b>Daftar Wilayah Base Aktif (Hapus Satu per Satu):</b></label>
+            <div id="admin-base-delete-list" style="margin-top: 10px; max-height: 200px; overflow-y: auto;"></div>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3 style="color: var(--accent-color);"><i class="fas fa-images"></i> Moderasi Galeri Warga</h3>
+            <button class="delete-section-btn" onclick="window.clearAllGaleriWarga()"><i class="fas fa-dumpster"></i> Kosongkan / Bersihkan Semua Galeri Warga</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3>Set Badside List</h3>
+            <div id="admin-badside-inputs"></div>
+            <div class="add-btn" onclick="window.addBadsideInput()"><i class="fas fa-plus"></i></div>
+            <button class="delete-section-btn" onclick="window.clearBadside()"><i class="fas fa-trash"></i> Hapus Semua Badside</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <h3>Set List Admin (Nama, Jabatan, Warning)</h3>
+            <div id="admin-list-inputs"></div>
+            <div class="add-btn" onclick="window.addAdminInput()"><i class="fas fa-plus"></i></div>
+            <button class="delete-section-btn" onclick="window.clearAdminTable()"><i class="fas fa-trash"></i> Hapus Kosongkan List Admin</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <label>Ganti Pengumuman:</label>
+            <input type="text" id="input-ann-title" class="admin-input" placeholder="Judul Pengumuman">
+            <input type="text" id="input-ann-desc" class="admin-input" placeholder="Isi Pengumuman">
+            <button class="delete-section-btn" onclick="window.clearAnnouncement()"><i class="fas fa-trash"></i> Sembunyikan Pengumuman</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <label>Tambah / Ganti Event:</label>
+            <input type="text" id="input-event-title" class="admin-input" placeholder="Judul Event Baru">
+            <input type="text" id="input-event-detail" class="admin-input" placeholder="Detail Event (Hari, Tanggal, Hadiah)">
+            <button class="delete-section-btn" onclick="window.clearEvent()"><i class="fas fa-eye-slash"></i> Sembunyikan Kotak Event</button>
+
+            <hr style="border: 0.5px solid #444; margin: 20px 0;">
+            <button class="btn" onclick="window.saveChanges()">SIMPAN SEMUA PERUBAHAN</button>
+            <button class="btn" onclick="window.logoutAdmin()" style="background: #e74c3c;">LOGOUT</button>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyByycnIfy96jZ3mGyc5jaPp9I0BN5FzITY",
+            authDomain: "website-noctivee.firebaseapp.com",
+            databaseURL: "https://website-noctivee-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "website-noctivee",
+            storageBucket: "website-noctivee.firebasestorage.app",
+            messagingSenderId: "655473344127",
+            appId: "1:655473344127:web:6e53ce520d22a51ab4894a",
+            measurementId: "G-Q5NVWXP5JT"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const webDataRef = ref(db, 'noctive_site_data');
+
+        let listWilayahFaksi = [];
+        let listGaleriWarga = [];
+        let blockFirebaseSync = false;
+        let activeUserIC = "";
+
+        // SYSTEM AUTHENTICATION ANTI DUAL IC
+        function checkUserICSession() {
+            const savedIC = localStorage.getItem("noctive_ic_name");
+            if (savedIC) {
+                activeUserIC = savedIC;
+                document.getElementById("authScreen").style.display = "none";
+                document.getElementById("topBarICName").innerText = activeUserIC;
+            } else {
+                document.getElementById("authScreen").style.display = "flex";
+            }
+        }
+
+        window.handleICAuthentication = function() {
+            const inputVal = document.getElementById("icInputName").value.trim();
+            const errorArea = document.getElementById("authErrorMsg");
+            
+            if (!inputVal) {
+                errorArea.innerText = "Masukkan Nama IC Anda terlebih dahulu!";
+                errorArea.style.display = "block";
+                return;
+            }
+            if (!inputVal.includes("_")) {
+                errorArea.innerText = "Format salah! Gunakan underscore, contoh: Xaviera_Vameziel";
+                errorArea.style.display = "block";
+                return;
+            }
+
+            const storedSystemIC = localStorage.getItem("noctive_ic_name");
+            if (storedSystemIC && storedSystemIC.toLowerCase() !== inputVal.toLowerCase()) {
+                errorArea.innerText = `IP/Browser ini terikat dengan IC ${storedSystemIC}! Anda dilarang melakukan Dual IC!`;
+                errorArea.style.display = "block";
+                return;
+            }
+
+            localStorage.setItem("noctive_ic_name", inputVal);
+            activeUserIC = inputVal;
+            
+            errorArea.style.display = "none";
+            document.getElementById("authScreen").style.display = "none";
+            document.getElementById("topBarICName").innerText = activeUserIC;
+            rebuildGaleriHTMLStructure();
+            alert(`Selamat datang di Noctive Website, ${activeUserIC}!`);
+        }
+
+        window.openNav = function() { document.getElementById("mySidenav").style.width = "250px"; }
+        window.closeNav = function() { document.getElementById("mySidenav").style.width = "0"; }
+
+        window.showSection = function(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.closeNav();
+        }
+
+        window.copyIP = function() {
+            const ipText = document.getElementById("server-ip").innerText;
+            navigator.clipboard.writeText(ipText).then(() => {
+                const msg = document.getElementById("copy-msg");
+                msg.innerText = "IP Berhasil disalin!";
+                setTimeout(() => msg.innerText = "", 2000);
+            });
+        }
+
+        window.loginAdmin = function() {
+            let pass = prompt("Masukkan Password Admin:");
+            if (pass === "PANJULKECEGANTENG") {
+                alert("Login Berhasil!");
+                document.getElementById("admin-panel").style.display = "block";
+                window.scrollTo(0, document.body.scrollHeight);
+                window.closeNav();
+                renderAdminBaseList();
+            } else {
+                alert("Password Salah!");
+            }
+        }
+
+        /* LIVE SIDEBAR SEARCH FUNCTION FOR BREAK RULES */
+        window.searchRulesInSidebar = function() {
+            const input = document.getElementById('sidebarSearch');
+            const filter = input.value.toLowerCase();
+            const tableBody = document.getElementById('rules-table-body');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            // Buka halaman section break rules saat user mengetik di sidebar search
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            document.getElementById('break_rules').classList.add('active');
+
+            for (let i = 0; i < rows.length; i++) {
+                const textData = rows[i].textContent || rows[i].innerText;
+                if (textData.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        /* SYSTEM DIALOG GALERI PLAYER */
+        window.openGaleriModal = function() {
+            document.getElementById('galeri-uploader-name').value = activeUserIC;
+            document.getElementById('galeriModal').style.display = 'flex';
+        }
+        window.closeGaleriModal = function() {
+            document.getElementById('galeriModal').style.display = 'none';
+            document.getElementById('galeri-photo-desc').value = '';
+            document.getElementById('galeri-photo-file').value = '';
+        }
+
+        /* SUBMIT FOTO MOMENT */
+        window.submitWargaGaleri = function() {
+            const uploader = activeUserIC;
+            const desc = document.getElementById('galeri-photo-desc').value.trim();
+            const fileInput = document.getElementById('galeri-photo-file');
+
+            if(!desc) {
+                alert("Mohon isi cerita / caption foto moment kamu!");
+                return;
+            }
+            if(!fileInput.files || !fileInput.files[0]) {
+                alert("Silakan pilih foto keseruan kamu dari galeri!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                const newGaleriItem = {
+                    id: 'gal_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                    uploader: uploader,
+                    desc: desc,
+                    image: base64Image
+                };
+                
+                listGaleriWarga.push(newGaleriItem);
+                rebuildGaleriHTMLStructure();
+                pushUpdateToFirebase();
+                window.closeGaleriModal();
+                alert("Foto berhasil dipublikasikan di Galeri Warga!");
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        
+         /* HAPUS FOTO SECARA OTOMATIS */
+        window.deleteOwnPhoto = function(id, originalUploader) {
+            if (activeUserIC.trim().toLowerCase() !== originalUploader.trim().toLowerCase()) {
+                alert("Akses ditolak! Anda bukan orang yang mengupload foto ini.");
+                return;
+            }
+
+            if (confirm("Apakah Anda yakin ingin menghapus foto moment Anda ini?")) {
+                blockFirebaseSync = true;
+                listGaleriWarga = listGaleriWarga.filter(item => item.id !== id);
+                rebuildGaleriHTMLStructure();
+                
+                const dataWeb = {
+                    ip: document.getElementById("server-ip").innerText,
+                    badsideHTML: document.getElementById('badside-container').innerHTML,
+                    adminHTML: document.getElementById('admin-table-body').innerHTML,
+                    announcementHTML: document.getElementById('main-announcement-card').innerHTML,
+                    announcementDisplay: document.getElementById('main-announcement-card').style.display || 'block',
+                    eventHTML: document.getElementById('event-box').innerHTML,
+                    eventDisplay: document.getElementById('event-box').style.display || 'block',
+                    wilayahArrayJSON: JSON.stringify(listWilayahFaksi),
+                    wilayahHTML: document.getElementById('base-display-list').innerHTML,
+                    galeriArrayJSON: JSON.stringify(listGaleriWarga)
+                };
+                
+                set(webDataRef, dataWeb).then(() => {
+                    blockFirebaseSync = false;
+                    alert("Foto moment kamu berhasil dihapus!");
+                }).catch((error) => {
+                    blockFirebaseSync = false;
+                    console.error(error);
+                });
+            }
+        }
+
+        function rebuildGaleriHTMLStructure() {
+            const containerDisplay = document.getElementById('galeri-display-list');
+            containerDisplay.innerHTML = '';
+
+            if(!listGaleriWarga || listGaleriWarga.length === 0) {
+                containerDisplay.innerHTML = '<p style="color:#aaa; font-style:italic;">Belum ada moment warga yang di-upload.</p>';
+                return;
+            }
+
+            listGaleriWarga.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'galeri-card';
+
+                let deleteButtonHTML = "";
+                if (activeUserIC && activeUserIC.trim().toLowerCase() === item.uploader.trim().toLowerCase()) {
+                    deleteButtonHTML = `
+                        <button class="delete-own-photo-btn" onclick="window.deleteOwnPhoto('${item.id}', '${item.uploader}')" title="Hapus foto saya">
+                            <i class="fas fa-trash-alt"></i> Hapus Foto
+                        </button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <img src="${item.image}" class="galeri-img" alt="Foto Moment">
+                    <div class="base-info">
+                        <p class="galeri-uploader-text"><i class="fas fa-user" style="font-size:12px; color:var(--accent-color);"></i> ${item.uploader}</p>
+                        <p class="galeri-text">${item.desc}</p>
+                        ${deleteButtonHTML}
+                    </div>
+                `;
+                containerDisplay.appendChild(card);
+            });
+        }
+
+        window.clearAllGaleriWarga = function() {
+            if(confirm("Apakah Anda yakin ingin membersihkan seluruh isi Galeri Warga?")) {
+                listGaleriWarga = [];
+                rebuildGaleriHTMLStructure();
+                pushUpdateToFirebase();
+                alert("Seluruh isi galeri warga telah dibersihkan!");
+            }
+        }
+
+        /* MANAJEMEN DATA WILAYAH BASE FAKSI */
+        window.addNewBaseItem = function() {
+            const faksiName = document.getElementById('base-faksi-name').value.trim();
+            const faksiZone = document.getElementById('base-faksi-zone').value.trim();
+            const fileInput = document.getElementById('base-faksi-file');
+
+            if(!faksiName || !faksiZone) {
+                alert("Mohon isi Nama Faksi dan Nama Wilayah!");
+                return;
+            }
+
+            const defaultImg = "https://i.ibb.co.com/pBXnqtC2/20260513-202837.jpg";
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    saveBaseDataToArray(faksiName, faksiZone, base64Image);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveBaseDataToArray(faksiName, faksiZone, defaultImg);
+            }
+        }
+
+        function saveBaseDataToArray(name, zone, imageData) {
+            const newItem = { name: name, zone: zone, image: imageData };
+            listWilayahFaksi.push(newItem);
+
+            document.getElementById('base-faksi-name').value = '';
+            document.getElementById('base-faksi-zone').value = '';
+            document.getElementById('base-faksi-file').value = '';
+
+            rebuildBaseHTMLStructure();
+            pushUpdateToFirebase();
+            renderAdminBaseList();
+            alert("Kekuasaan Wilayah Faksi Berhasil Ditambahkan!");
+        }
+
+        window.deleteBaseItemSingle = function(index) {
+            if(confirm(`Hapus wilayah dari faksi "${listWilayahFaksi[index].name}"?`)) {
+                listWilayahFaksi.splice(index, 1);
+                rebuildBaseHTMLStructure();
+                pushUpdateToFirebase();
+                renderAdminBaseList();
+            }
+        }
+        
+        function renderAdminBaseList() {
+            const deleteListArea = document.getElementById('admin-base-delete-list');
+            deleteListArea.innerHTML = '';
+            if(listWilayahFaksi.length === 0) {
+                deleteListArea.innerHTML = '<p style="color:#aaa; font-style:italic; font-size:13px;">Belum ada data wilayah faksi.</p>';
+                return;
+            }
+            listWilayahFaksi.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'admin-action-row';
+                row.innerHTML = `
+                    <span style="font-size:13px;"><b>${item.name}</b> - ${item.zone}</span>
+                    <button class="delete-section-btn" style="padding:4px 8px; margin:0;" onclick="window.deleteBaseItemSingle(${index})"><i class="fas fa-trash-alt"></i> Hapus</button>
+                `;
+                deleteListArea.appendChild(row);
+            });
+        }
+
+        function rebuildBaseHTMLStructure() {
+            const containerDisplay = document.getElementById('base-display-list');
+            containerDisplay.innerHTML = '';
+
+            if(listWilayahFaksi.length === 0) {
+                containerDisplay.innerHTML = '<p style="color:#aaa; font-style:italic;">Belum ada wilayah faksi yang terdata.</p>';
+                return;
+            }
+
+            listWilayahFaksi.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'base-card';
+                card.innerHTML = `
+                    <img src="${item.image}" class="base-img" alt="Foto Base">
+                    <div class="base-info">
+                        <p class="base-title">${item.name}</p>
+                        <p class="base-text"><i class="fas fa-map-marker-alt" style="color:red"></i> Wilayah: ${item.zone}</p>
+                    </div>
+                `;
+                containerDisplay.appendChild(card);
+            });
+        }
+
+        window.addBadsideInput = function() {
+            const container = document.getElementById('admin-badside-inputs');
+            const div = document.createElement('div');
+            div.className = 'badside-input-group';
+            div.style.marginBottom = "15px";
+            div.innerHTML = `
+                <input type="text" class="admin-input badside-name-in" placeholder="Nama Faksi" style="width: 60%; display: inline-block;">
+                <select class="admin-input badside-status-in" style="width: 35%; display: inline-block;">
+                    <option value="Approved">Approved</option>
+                    <option value="Process">Process</option>
+                </select>
+            `;
+            container.appendChild(div);
+        }
+
+        window.addAdminInput = function() {
+            const container = document.getElementById('admin-list-inputs');
+            const div = document.createElement('div');
+            div.className = 'admin-input-group';
+            div.style.marginBottom = "15px";
+            div.innerHTML = `
+                <input type="text" class="admin-input admin-name-in" placeholder="Nama Admin" style="width: 35%; display: inline-block; margin-right: 1%;">
+                <input type="text" class="admin-input admin-role-in" placeholder="Jabatan" style="width: 35%; display: inline-block; margin-right: 1%;">
+                <input type="text" class="admin-input admin-warn-in" placeholder="Warning" value="0/4" style="width: 25%; display: inline-block;">
+            `;
+            container.appendChild(div);
+        }
+
+        function pushUpdateToFirebase() {
+            if (blockFirebaseSync) return;
+            const dataWeb = {
+                ip: document.getElementById("server-ip").innerText,
+                badsideHTML: document.getElementById('badside-container').innerHTML,
+                adminHTML: document.getElementById('admin-table-body').innerHTML,
+                announcementHTML: document.getElementById('main-announcement-card').innerHTML,
+                announcementDisplay: document.getElementById('main-announcement-card').style.display || 'block',
+                eventHTML: document.getElementById('event-box').innerHTML,
+                eventDisplay: document.getElementById('event-box').style.display || 'block',
+                wilayahArrayJSON: JSON.stringify(listWilayahFaksi),
+                wilayahHTML: document.getElementById('base-display-list').innerHTML,
+                galeriArrayJSON: JSON.stringify(listGaleriWarga)
+            };
+            set(webDataRef, dataWeb);
+        }
+
+        window.clearBadside = function() {
+            if(confirm("Apakah Anda yakin ingin menghapus seluruh daftar Badside List?")) {
+                document.getElementById('badside-container').innerHTML = '<p style="color:#aaa;font-style:italic;">Belum ada faksi yang terdaftar.</p>';
+                document.getElementById('admin-badside-inputs').innerHTML = '';
+                window.addBadsideInput();
+                pushUpdateToFirebase();
+                alert("Daftar Badside dikosongkan!");
+            }
+        }
+
+        window.clearAdminTable = function() {
+            if(confirm("Apakah Anda yakin ingin mengosongkan seluruh tabel List Admin depan?")) {
+                document.getElementById('admin-table-body').innerHTML = '<tr><td colspan="3" style="text-align:center;color:#aaa;font-style:italic;">Tidak ada admin aktif</td></tr>';
+                document.getElementById('admin-list-inputs').innerHTML = '';
+                window.addAdminInput();
+                pushUpdateToFirebase();
+                alert("List Admin dikosongkan!");
+            }
+        }
+
+        window.clearAnnouncement = function() {
+            if(confirm("Sembunyikan kartu pengumuman aktif dari halaman depan?")) {
+                document.getElementById('main-announcement-card').style.display = 'none';
+                document.getElementById('input-ann-title').value = '';
+                document.getElementById('input-ann-desc').value = '';
+                pushUpdateToFirebase();
+                alert("Pengumuman disembunyikan!");
+            }
+        }
+
+        window.clearEvent = function() {
+            if(confirm("Apakah Anda ingin menyembunyikan atau menghapus tampilan kotak Event saat ini?")) {
+                document.getElementById('event-box').style.display = 'none';
+                document.getElementById('input-event-title').value = '';
+                document.getElementById('input-event-detail').value = '';
+                pushUpdateToFirebase();
+                alert("Kotak event disembunyikan dari user!");
+            }
+        }
+
+        window.saveChanges = function() {
+            let newIP = document.getElementById("input-ip").value;
+            if(newIP) document.getElementById("server-ip").innerText = newIP;
+
+            const names = document.querySelectorAll('.badside-name-in');
+            const statuses = document.querySelectorAll('.badside-status-in');
+            const displayContainer = document.getElementById('badside-container');
+            
+            if(names.length > 0) {
+                let hasValidBadside = false;
+                names.forEach(nameInput => { if(nameInput.value) hasValidBadside = true; });
+                
+                if(hasValidBadside) {
+                    displayContainer.innerHTML = '';
+                    names.forEach((nameInput, index) => {
+                        if(nameInput.value) {
+                            const statusVal = statuses[index].value;
+                            const statusClass = statusVal === "Approved" ? "status-approved" : "status-process";
+                            const item = document.createElement('div');
+                            item.className = 'faksi-item';
+                            item.innerHTML = `<span>${nameInput.value}</span> <span class="${statusClass}">${statusVal}</span>`;
+                            displayContainer.appendChild(item);
+                        }
+                    });
+                }
+            }
+
+            const adminNames = document.querySelectorAll('.admin-name-in');
+            const adminRoles = document.querySelectorAll('.admin-role-in');
+            const adminWarns = document.querySelectorAll('.admin-warn-in');
+            const adminTableBody = document.getElementById('admin-table-body');
+
+            if(adminNames.length > 0) {
+                let hasValidAdmin = false;
+                adminNames.forEach(admInput => { if(admInput.value) hasValidAdmin = true; });
+
+                if(hasValidAdmin) {
+                    adminTableBody.innerHTML = ''; 
+                    adminNames.forEach((admInput, index) => {
+                        if(admInput.value) {
+                            const roleVal = adminRoles[index].value || "Staff"; 
+                            const warnVal = adminWarns[index].value || "0/4"; 
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `<td>${admInput.value}</td><td>${roleVal}</td><td><span class="warning-badge">${warnVal}</span></td>`;
+                            adminTableBody.appendChild(tr);
+                        }
+                    });
+                }
+            }
+
+            let newAnnTitle = document.getElementById("input-ann-title").value;
+            let newAnnDesc = document.getElementById("input-ann-desc").value;
+            if(newAnnTitle || newAnnDesc) {
+                document.getElementById('main-announcement-card').style.display = 'block';
+                if(newAnnTitle) document.getElementById("ann-title-1").innerText = newAnnTitle;
+                if(newAnnDesc) document.getElementById("ann-desc-1").innerText = newAnnDesc;
+            }
+
+            let newEventTitle = document.getElementById("input-event-title").value;
+            let newEventDetail = document.getElementById("input-event-detail").value;
+            if(newEventTitle || newEventDetail) {
+                document.getElementById('event-box').style.display = 'block';
+                if(newEventTitle) document.getElementById("event-title").innerHTML = `<i class="fas fa-bullhorn" style="color: var(--accent-color)"></i> ${newEventTitle}`;
+                if(newEventDetail) document.getElementById("event-detail").innerText = newEventDetail;
+            }
+
+            pushUpdateToFirebase();
+            alert("Update Berhasil secara Real-Time!");
+        }
+
+        window.logoutAdmin = function() {
+            document.getElementById("admin-panel").style.display = "none";
+            alert("Berhasil Logout.");
+        }
+
+        onValue(webDataRef, (snapshot) => {
+            if (blockFirebaseSync) return;
+            const data = snapshot.val();
+            if(!data) return;
+            if(data.ip) document.getElementById("server-ip").innerText = data.ip;
+            if(data.badsideHTML) document.getElementById('badside-container').innerHTML = data.badsideHTML;
+            if(data.adminHTML) document.getElementById('admin-table-body').innerHTML = data.adminHTML;
+            if(data.announcementHTML) document.getElementById('main-announcement-card').innerHTML = data.announcementHTML;
+            if(data.announcementDisplay) document.getElementById('main-announcement-card').style.display = data.announcementDisplay;
+            if(data.eventHTML) document.getElementById('event-box').innerHTML = data.eventHTML;
+            if(data.eventDisplay) document.getElementById('event-box').style.display = data.eventDisplay;
+            
+            if(data.wilayahArrayJSON) {
+                listWilayahFaksi = JSON.parse(data.wilayahArrayJSON);
+                rebuildBaseHTMLStructure();
+                if(document.getElementById("admin-panel").style.display === "block") {
+                    renderAdminBaseList();
+                }
+            } else if(data.wilayahHTML) {
+                document.getElementById('base-display-list').innerHTML = data.wilayahHTML;
+            }
+
+            if(data.galeriArrayJSON) {
+                listGaleriWarga = JSON.parse(data.galeriArrayJSON);
+                rebuildGaleriHTMLStructure();
+            }
+        });
+        
+        checkUserICSession();
+        window.addBadsideInput();
+        window.addAdminInput();
+    </script>
+</body>
+</html>
+ 
